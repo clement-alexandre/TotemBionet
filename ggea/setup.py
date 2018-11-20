@@ -3,14 +3,17 @@
 from setuptools import setup, find_packages
 
 setup(name="ggea",
-    version='0.0.1',
+    version='0.0.2',
     author = "Alexandre Clement",
     author_email = "alexandre.clement@etu.unice.fr",
     url = "https://github.com/clement-alexandre/TotemBionet",
     description = "Asynchronous State Graph Generator",
     long_description = open("README.md").read(),
+    install_requires = [
+        "networkx >= 2.0",
+        "pydot"
+        ],
     extras_require = {
-        "networkx": ["networkx >= 2.0", "pydot", "pygraphviz"],
         "ipython": ["tabulate"],
     },
     license="WTFPL",

@@ -6,6 +6,10 @@ Install with [pip](https://pypi.org/project/ggea/):
 
     pip install ggea
 
+Install with [conda](https://anaconda.org/alexandre-clement/ggea)
+
+    conda install -c alexandre-clement ggea
+
 ## Run tests
 
 Execute the following command to run the test suite:
