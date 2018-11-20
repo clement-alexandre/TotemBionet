@@ -8,5 +8,6 @@ RUN conda install --no-update-deps -y \
         && conda clean -y --all && rm -rf /opt/conda/pkgs
 
 COPY tutorials /notebook/tutorials
+RUN chown -R user:user /notebook
 
 USER user
