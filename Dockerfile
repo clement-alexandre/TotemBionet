@@ -7,4 +7,6 @@ RUN conda install --no-update-deps -y \
         ggea=0.0.2 \
         && conda clean -y --all && rm -rf /opt/conda/pkgs
 
+COPY tutorials /notebook/tutorials
+
 USER user
