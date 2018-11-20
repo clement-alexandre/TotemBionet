@@ -8,7 +8,7 @@ setup(name="ggea",
     author_email = "alexandre.clement@etu.unice.fr",
     url = "https://github.com/clement-alexandre/TotemBionet",
     description = "Asynchronous State Graph Generator",
-    long_description = open("README.md").read(),
+    long_description = open("README.rst").read(),
     install_requires = [
         "networkx >= 2.0",
         "pydot"
