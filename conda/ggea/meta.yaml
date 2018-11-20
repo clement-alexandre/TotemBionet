@@ -1,0 +1,38 @@
+{% set name = "ggea" %}
+{% set version = "0.0.2" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: a9fdaaa7c64bd9145fca76d541edf6cf3c4e906afd039ec2942a3f74da8d3509
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv "
+
+requirements:
+  host:
+    - pip
+    - python
+  run:
+    - python
+
+test:
+  imports:
+    - ggea
+
+about:
+  home: https://github.com/clement-alexandre/TotemBionet
+  license: WTFPL
+  license_family: OTHER
+  license_file: 
+  summary: Asynchronous State Graph Generator
+  doc_url: 
+  dev_url: 
+
+extra:
+  recipe-maintainers:
+    - clement-alexandre
