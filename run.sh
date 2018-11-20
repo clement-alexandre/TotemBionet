@@ -1,0 +1,1 @@
+docker run --name totembionet -p 8888:8888 totembionet
