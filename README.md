@@ -18,3 +18,5 @@ Then, start the docker container by executing:
 
 Then, open your browser and go to http://localhost:8888 for the Jupyter notebook web interface.  
 The container can be stopped by pressing <kbd>Ctrl+C</kbd> keys or by using the `Quit` button in the Jupyter interface.
+
+![Quit button](docs/source/static/quit.png)
