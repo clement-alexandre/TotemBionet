@@ -12,3 +12,15 @@ matrix:
         - coverage run tests/test.py
       after_success:
         - codecov
+    - name: "model picker"
+      language: python
+      python: 3.6
+      before_install:
+        - cd model-picker
+      install:
+        - pip install .
+        - pip install codecov
+      script:
+        - coverage run tests/test.py
+      after_success:
+        - codecov
