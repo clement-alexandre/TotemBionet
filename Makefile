@@ -18,7 +18,7 @@ stop: ## Stop and delete the container
 remove: ## Remove the image
 	docker rmi $(IMAGE_NAME)
 
-clean: clean-build clean-pyc ## Remove compiled files
+clean: clean-build clean-pyc clean-hooks ## Remove compiled files
 
 clean-build:
 	rm -fr **/build/
@@ -32,3 +32,6 @@ clean-pyc:
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -fr {} +
+
+clean-hooks:
+	find . -name '*.coverage' -exec rm -f {} +
