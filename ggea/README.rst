@@ -6,6 +6,13 @@ Générateur de Graphe d'État Asynchrone.
 (Asynchronous State Graph Generator)
 ***************************************
 
+.. image:: https://travis-ci.com/clement-alexandre/TotemBionet.svg?branch=master
+    :target: https://travis-ci.com/clement-alexandre/TotemBionet
+
+.. image:: https://codecov.io/gh/clement-alexandre/TotemBionet/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/clement-alexandre/TotemBionet
+
+
 Installation
 ---------------
 

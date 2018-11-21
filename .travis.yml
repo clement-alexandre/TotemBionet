@@ -1,0 +1,14 @@
+matrix:
+  include:
+    - name: "ggea"
+      language: python
+      python: 3.6
+      before_install:
+        - cd ggea
+      install:
+        - pip install .
+        - pip install codecov
+      script:
+        - coverage run tests/test.py
+      after_success:
+        - codecov

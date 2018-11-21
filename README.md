@@ -1,5 +1,7 @@
 # TotemBionet
 
+[![Build Status](https://travis-ci.com/clement-alexandre/TotemBionet.svg?branch=master)](https://travis-ci.com/clement-alexandre/TotemBionet)
+
 ## Quick usage guide
 
 ### Prerequirements
