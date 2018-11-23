@@ -1,0 +1,49 @@
+-- NuSMV file written by SMBioNet
+
+MODULE main
+
+VAR
+
+operon : 0 .. 2 ;
+mucuB : 0 .. 1 ;
+
+DEFINE
+
+F_operon :=
+case
+(operon>=1) & (!(mucuB>=1)) : 2 ; -- K_operon+alg+free
+(!(mucuB>=1)) : 1 ; -- K_operon+free
+(operon>=1) : 2 ; -- K_operon+alg
+1 : 1 ; -- K_operon
+esac;
+
+F_mucuB :=
+case
+(operon>=1) : 1 ; -- K_mucuB+prod
+1 : 1 ; -- K_mucuB
+esac;
+
+ASSIGN
+
+next(operon) :=
+case
+operon = F_operon : operon ;
+operon < F_operon : {operon, operon + 1} ;
+operon > F_operon : {operon - 1, operon} ;
+esac;
+
+next(mucuB) :=
+case
+mucuB =  F_mucuB : mucuB ;
+ 1 : {0, 1} ;
+esac;
+
+TRANS
+
+(operon = F_operon & mucuB = F_mucuB) |
+(operon != next(operon) & mucuB  = next(mucuB)) |
+(operon  = next(operon) & mucuB != next(mucuB))
+
+SPEC
+TRUE
+

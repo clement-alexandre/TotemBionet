@@ -1,0 +1,16 @@
+# exemple mucus graphe figure 6
+# bas page 19, stabilité de de l'état (2,1)
+# fixe K_operon+alg=2 et  K_mucuB+prod = 1
+
+VAR
+operon = 0 2;
+mucuB = 0 1;
+
+REG
+prod [(operon>=1)] => mucuB;
+free [!(mucuB>=1)] => operon;
+alg [(operon>=1)] => operon;
+
+PARA
+K_operon+alg=2;
+K_mucuB+prod = 1;
