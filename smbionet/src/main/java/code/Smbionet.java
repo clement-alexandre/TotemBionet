@@ -13,29 +13,57 @@ public class Smbionet {
     private static long nbGoodParas;
     private String input;
     private List<String> opts = new List<String>();
+    private int indiceFile = 0;
 
     public Smbionet(){
     }
 
-    public String getInput() {
-        return input;
-    }
 
-    public void setInput(String input) {
-        this.input = input;
-    }
-
-    public List<String> getOpts() {
-        return opts;
-    }
-
-    public void setOpts(List<String> opts) {
-        this.opts = opts;
-    }
-
-
+    String ctll = "# exemple mucus graphe figure 6\n" +
+            "# haut page 21 : pas d'information sur les paramètres mais formule CTL\n" +
+            "\n" +
+            "VAR\n" +
+            "operon = 0 2;\n" +
+            "mucuB = 0 1;\n" +
+            "\n" +
+            "REG\n" +
+            "prod [(operon>=1)] => mucuB;\n" +
+            "free [!(mucuB>=1)] => operon;\n" +
+            "alg [(operon>=1)] => operon;\n" +
+            "\n" +
+            "PARA\n" +
+            "K_operon = 0 ;\n" +
+            "K_operon+alg = 2 ;\n" +
+            "# K_operon+free = 2 ;\n" +
+            "K_operon+alg+free = 2 ;\n" +
+            "K_mucuB = 0 ;\n" +
+            "K_mucuB+prod = 1 ;\n" +
+            "\n" +
+            "CTL\n" +
+            "(operon=0)->AG(!(mucuB=1)) & (operon=2)->AG(!(mucuB=0))";
 
     //Option s avec une entier en argument
+
+    public void generateInputFile(String grapheInfluence)  {
+        try {
+            input = "./samples/result"+indiceFile;
+            Out.printIn(input+".txt");
+            Out.pf(grapheInfluence);
+            indiceFile++;
+        }catch (Exception e){
+            System.err.println("\n"+e.getMessage());
+        }
+    }
+
+
+    public void addCTL(String ctl){
+        try {
+            Out.pf(ctl);
+            Out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public void run(){
@@ -47,7 +75,7 @@ public class Smbionet {
                 Out.setVerb(getOpt("-v", 0, opts));
 
                 //CONSTRUCTION DU R�SEAU
-                Net net = new Net(input);
+                Net net = new Net(input+".txt");
                 net.printoo();
                 if (getOpt("-comp", opts))
                     System.exit(0);
@@ -111,7 +139,7 @@ public class Smbionet {
                 System.exit(2);
             }
         }else{
-            System.out.println("pas imput");
+            System.out.println("pas input");
         }
     }
 
@@ -155,6 +183,32 @@ public class Smbionet {
             Out.pr("> SELECTED MODELS / CHECKED MODELS = "+
                     nbGoodParas+" / "+nbParas+" ("+c+")");
         }
+    }
+
+    // Getters and Setters
+
+    public String getInput() {
+        return input;
+    }
+
+    public void setInput(String input) {
+        this.input = input;
+    }
+
+    public List<String> getOpts() {
+        return opts;
+    }
+
+    public void setOpts(List<String> opts) {
+        this.opts = opts;
+    }
+
+    public int getIndiceFile() {
+        return indiceFile;
+    }
+
+    public void setIndiceFile(int indiceFile) {
+        this.indiceFile = indiceFile;
     }
 
 }

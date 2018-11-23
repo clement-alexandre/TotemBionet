@@ -14,6 +14,8 @@ public class SmbionetEntryPoint {
         return smbionet;
     }
 
+    private int indiceFile = 0;
+
     public static void main(String[] args) {
         GatewayServer gatewayServer = new GatewayServer(new SmbionetEntryPoint());
         gatewayServer.start();
