@@ -8,17 +8,17 @@ import java.math.BigInteger;
 
 public class Gene extends Var {
 
-    //Niveau min et max du gène
+    //Niveau min et max du gene
     public final int min;
     public final int max;
-    //Régulations du gène
+    //R?gulations du g?ne
     public final List<Reg> regs=new List<Reg>();
-    //Liste dans gènes intervenant dans les régulations
+    //Liste dans g?nes intervenant dans les regulations
     public final List<Gene> inputGenes=new List<Gene>();
-    //Paramètres associés au gène
+    //Param?tres associ?s au g?ne
     public final List<Para> paras=new List<Para>();
 
-    //Pour l'énumération des paramètrages
+    //Pour l'?num?ration des param?trages
     private List<List<Para>> dagByDeep=new List<List<Para>>();
     private int currentDeep;
 
@@ -29,32 +29,32 @@ public class Gene extends Var {
 	this.max=max;
     }
 
-    //Premier niveau possible pour le gène
+    //Premier niveau possible pour le g?ne
 
     private void firstLevel(){
-	setLevel(min);//héritage
+	setLevel(min);//h?ritage
     }
 
-    //Niveau suivant pour le gène s'il existe (true);
+    //Niveau suivant pour le gene s'il existe (true);
     //premier niveau sinon (false)
 
     private boolean nextLevel(){
-	if(getLevel()==max){//héritage
-	    setLevel(min);//héritage
+	if(getLevel()==max){//h?ritage
+	    setLevel(min);//h?ritage
 	    return false;
 	}
-	setLevel(getLevel()+1);//héritage
+	setLevel(getLevel()+1);//h?ritage
 	return true;
     }
 
-    //Première configuration des gènes entrant
+    //Premi?re configuration des g?nes entrant
 
     private void firstConfig(){
 	for(int i=0;i<inputGenes.size();i++)
 	    inputGenes.get(i).firstLevel();
     }
 
-    //Configuration suivante des gènes entrant
+    //Configuration suivante des g?nes entrant
 
     private boolean nextConfig(){
 	for(int i=0;i<inputGenes.size();i++)
@@ -63,7 +63,7 @@ public class Gene extends Var {
 	return false;
     }
 
-    //retourne le paramètre vers lequel le gène évolue
+    //retourne le parametre vers lequel le g?ne ?volue
 
     public Para getFocalPara(){
 	for(int i=paras.size()-1;i>=0;i--){
@@ -79,45 +79,45 @@ public class Gene extends Var {
 	return null;
     }
 
-    //Construction de la liste de paramètres: (1) On construit les
-    //paramètres possibles; (2) On calcul les intervalles possibles de
-    //chaque paramètre; (3) On donne, par défaut, le plus grand
-    //domaine de variation possible pour les paramètres; (4) On tri
-    //les paramètres par ordre alphabétique et nombre de régulations
+    //Construction de la liste de param?tres: (1) On construit les
+    //param?tres possibles; (2) On calcul les intervalles possibles de
+    //chaque param?tre; (3) On donne, par d?faut, le plus grand
+    //domaine de variation possible pour les param?tres; (4) On tri
+    //les param?tres par ordre alphab?tique et nombre de r?gulations
     //croissant
 
     public void setParas(){
-	//On regarde si le gene s'autorégule
+	//On regarde si le gene s'autor?gule
 	boolean selfRegulated=inputGenes.contains(this);
 	paras.clear();
-	//Enumeration des configurations possibles pour les gènes entrant
+	//Enumeration des configurations possibles pour les g?nes entrant
 	firstConfig();
 	do{
-	    //On fait la liste des régulations présentes
+	    //On fait la liste des r?gulations pr?sentes
 	    List<Reg> paraRegs=new List<Reg>();
 	    for(int i=0;i<regs.size();i++)
 		if(regs.get(i).isEffective())
 		    paraRegs.addAlpha(regs.get(i));
-	    //On construit le nom du paramètre
+	    //On construit le nom du param?tre
 	    String paraName="K_"+name;
 	    for(int i=0;i<paraRegs.size();i++)
 		paraName+="+"+paraRegs.get(i);
-	    //On regarde si le paramètre existe déjà
+	    //On regarde si le param?tre existe d?j?
 	    Para p=paras.get(paraName);
 	    if(p==null){
-		//Création du paramètre
+		//Cr?ation du param?tre
 		p=new Para(paraName,paraRegs);
-		//Ajout dans la liste des paramètres
+		//Ajout dans la liste des param?tres
 		paras.addAlpha(p);
-		//Si le gène ne s'autorégule pas, tous les niveaux du
-		//gène sont compatible avec le paramètre
+		//Si le g?ne ne s'autor?gule pas, tous les niveaux du
+		//g?ne sont compatible avec le param?tre
 		if(!selfRegulated)
 		    for(int i=min;i<=max;i++)
 			p.intervals.add(new Interval(i,true));
 	    }
-	    //Dans le cas où le gène s'autorégule, création d'un
-	    //intervalle singleton = le paramètre est compatible avec
-	    //le niveau actuelle du gène
+	    //Dans le cas o? le g?ne s'autor?gule, cr?ation d'un
+	    //intervalle singleton = le param?tre est compatible avec
+	    //le niveau actuelle du g?ne
 	    if(selfRegulated){
 		int position;
 		for(position=0;position<p.intervals.size();position++)
@@ -130,13 +130,13 @@ public class Gene extends Var {
 		    p.intervals.add(position,new Interval(getLevel(),true));
 	    }
 	}while(nextConfig());
-	//Si le gène s'autorégule, on complète les intervalles
-	//possibles pour chaque paramètre = les intervalles compris
-	//entre les niveaux du gène compatible avec le paramètre
+	//Si le g?ne s'autor?gule, on compl?te les intervalles
+	//possibles pour chaque param?tre = les intervalles compris
+	//entre les niveaux du g?ne compatible avec le param?tre
 	if(selfRegulated)
 	    for(int i=0;i<paras.size();i++){
 		List<Interval> intervals=paras.get(i).intervals;
-		//Intervalles intermédiaires
+		//Intervalles interm?diaires
 		for(int j=0;j<intervals.size()-1;j++)
 		    if(intervals.get(j).max+1<=intervals.get(j+1).min-1){
 			intervals.add(j+1,new Interval(intervals.get(j).max+1,intervals.get(j+1).min-1));
@@ -150,11 +150,11 @@ public class Gene extends Var {
 		    intervals.add(intervals.size(),
 				  new Interval(intervals.get(intervals.size()-1).max+1,max));
 	    }
-	//On donne une valeur minimal et maximal pour chaque paramètre
+	//On donne une valeur minimal et maximal pour chaque param?tre
 	for(int i=0;i<paras.size();i++)
 	    paras.get(i).setMinMax(min,max);
-	//On tri les paramètres: si le nombre de régulateurs pour le
-	//paramètre p est < au nombre de régulateurs pour p', alors p
+	//On tri les param?tres: si le nombre de r?gulateurs pour le
+	//param?tre p est < au nombre de r?gulateurs pour p', alors p
 	//est devant p' dans la liste
 	boolean permut=true;
 	while(permut){
@@ -171,31 +171,31 @@ public class Gene extends Var {
 	}
     }
 
-    //On construit le graphe d'inclusion entre les paramètres: (1)
+    //On construit le graphe d'inclusion entre les param?tres: (1)
     //C'est le plus petit graphe, tel qui si l'ensemble des
-    //régulations de p est inclus dans l'ensemble des régulations de
-    //p', alors il y a un chemin de p à p' dans le graphe; (2) S'il y
-    //a un arc de p à p', alors la condition de monotonicité de p->p'
-    //peut être violée; (3) Pour chaque arc p->p' on supprime les
+    //r?gulations de p est inclus dans l'ensemble des r?gulations de
+    //p', alors il y a un chemin de p ? p' dans le graphe; (2) S'il y
+    //a un arc de p ? p', alors la condition de monotonicit? de p->p'
+    //peut ?tre viol?e; (3) Pour chaque arc p->p' on supprime les
     //intervalles de p et de p' qui rendent impossible la condition de
-    //monotonicité
+    //monotonicit?
 
     public void setDag()throws Exception{
 	//On initialise les arcs entrant et sortant et le domaine de
-	//variation des paramètres (qui sera éventuellement réduit
+	//variation des param?tres (qui sera ?ventuellement r?duit
 	//lors de la construction du DAG)
 	for(int i=0;i<paras.size();i++){
 	    paras.get(i).succs.clear();
 	    paras.get(i).updateMinIntMaxInt();
 	}
 	//Calcul des arcs (en profitant du fait que la liste des
-	//paramètres soit triée par nombre de régulateurs croissant)
+	//param?tres soit tri?e par nombre de r?gulateurs croissant)
 	for(int i=0;i<paras.size();i++){
 	    Para p1=paras.get(i);
 	    for(int j=i+1;j<paras.size();j++){
 		Para p2=paras.get(j);
 		if(p1.regs.sublist(p2.regs)){
-		    //p2 est candidat pour être un successeur de p1,
+		    //p2 est candidat pour ?tre un successeur de p1,
 		    //on regarde s'il est minimum pour l'inclusion
 		    boolean arc=true;
 		    for(int k=i+1;k<paras.size();k++)
@@ -204,17 +204,17 @@ public class Gene extends Var {
 			    arc=false;
 			    break;
 			}
-		    //Avant de créer l'arc, on regarde en plus si la
-		    //condition de monotonicité p1->p2 peut être fausse
+		    //Avant de cr?er l'arc, on regarde en plus si la
+		    //condition de monotonicit? p1->p2 peut ?tre fausse
 		    if(arc && !p1.maxInt().weakLess(p2.minInt())){
-			//Création d'un arc de p1 vers p2
+			//Cr?ation d'un arc de p1 vers p2
 			p1.succs.add(p2);
-			//Si la condition de monotonicité ne peut
-			//jamais être vérifiée, on a une exception
+			//Si la condition de monotonicit? ne peut
+			//jamais ?tre v?rifi?e, on a une exception
 			if(!p1.minInt().weakLess(p2.maxInt()))
 			    throw new Exception("No possible parameterization for gene "+this+
 						"(parameter "+p1+" cannot be less than "+p2+")");
-			//Réduction de l'intervalle max de p1
+			//R?duction de l'intervalle max de p1
 			p1.setMaxIntWeakLessThan(p2.maxInt());
 			//Augmentation de l'intervalle min de p2
 			p2.setMinIntWeakGreaterThan(p1.minInt());
@@ -227,12 +227,12 @@ public class Gene extends Var {
     }
 
     //Construction du "DAG par profondeur". C'est une liste de liste:
-    //la liste 0 contient tous les paramètres sans successeur, et la
-    //liste p>0 contient tous les paramètres dont tous les successeurs
+    //la liste 0 contient tous les param?tres sans successeur, et la
+    //liste p>0 contient tous les param?tres dont tous les successeurs
     //sont dans la liste p-1;
 
     private void setDagByDeep(int deep){
-	//Profondeur 0 = cas de base = tous les paramètres sans successeur
+	//Profondeur 0 = cas de base = tous les param?tres sans successeur
 	if(deep==0){
 	    List<Para> l=new List<Para>();
 	    for(int i=0;i<paras.size();i++)
@@ -242,8 +242,8 @@ public class Gene extends Var {
 	    dagByDeep.add(l);
 	    setDagByDeep(1);
 	}
-	//Profondeur p>0 = tous les paramètres dont tous les
-	//successeurs sont à la profondeur p-1
+	//Profondeur p>0 = tous les param?tres dont tous les
+	//successeurs sont ? la profondeur p-1
 	else{
 	    List<Para> l=new List<Para>();
 	    for(int i=0;i<paras.size();i++)
@@ -265,13 +265,13 @@ public class Gene extends Var {
 	}
     }
 
-    //ENUMERATION DES PARAMÉTRAGES
+    //ENUMERATION DES PARAM?TRAGES
 
     public void firstParameterization(){
-	//On minimise les intervalles courants de tous les paramètres
+	//On minimise les intervalles courants de tous les param?tres
  	for(int i=0;i<paras.size();i++)
  	    paras.get(i).firstCurrentInt();
-	//On maximise les intervalles max courants de tous les paramètres
+	//On maximise les intervalles max courants de tous les param?tres
 	for(int i=0;i<paras.size();i++)
  	    paras.get(i).setCurrentMaxLessThanSuccs();
 	//On part en bas du DAG
@@ -279,11 +279,11 @@ public class Gene extends Var {
     }
 
     private boolean nextLocalParameterization(){
-	//On augmente l'intervalle courant d'un paramètre à la profondeur currentDeep
+	//On augmente l'intervalle courant d'un param?tre ? la profondeur currentDeep
  	for(int i=0;i<dagByDeep.get(currentDeep).size();i++){
 	    //Si une augmentation a lieu, on augmente currentDeep
-	    //d'une unité et on maximise l'intervalle max courant des
-	    //paramètres à la nouvelle profondeur
+	    //d'une unit? et on maximise l'intervalle max courant des
+	    //param?tres ? la nouvelle profondeur
  	    if(dagByDeep.get(currentDeep).get(i).nextCurrentInt()){
  		currentDeep++;
 		for(int j=0;j<dagByDeep.get(currentDeep).size();j++)
@@ -291,7 +291,7 @@ public class Gene extends Var {
 		return true;
  	    }
  	}
-	//Si toutes les configurations ont été épuisées à la
+	//Si toutes les configurations ont ?t? ?puis?es ? la
 	//profondeur currentDeep, on diminue la profondeur
 	currentDeep--;
 	return false;
@@ -305,7 +305,7 @@ public class Gene extends Var {
 	return false;
     }
 
-    //Nombre de paramétrages (monotones et sans redondance)
+    //Nombre de param?trages (monotones et sans redondance)
 
     public BigInteger nbParameterizations(){
 	BigInteger nb=BigInteger.ONE;

@@ -1,9 +1,6 @@
 package code;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class Out {
 
@@ -61,6 +58,43 @@ public class Out {
     }
 
     public static void close()throws IOException{w.close();}
+
+    //lire un fichier
+    public static String readFile(String path){
+        String result = "";
+        try
+        {
+            File f = new File (path);
+            FileReader fr = new FileReader (f);
+            BufferedReader br = new BufferedReader (fr);
+
+            try
+            {
+                String line = br.readLine();
+                result = result + line +"\n";
+
+                while (line != null)
+                {
+                    System.out.println (line);
+                    line = br.readLine();
+                    result = result + line+"\n";
+                }
+
+                br.close();
+                fr.close();
+            }
+            catch (IOException exception)
+            {
+                System.out.println ("Erreur lors de la lecture : " + exception.getMessage());
+            }
+        }
+        catch (FileNotFoundException exception)
+        {
+            System.out.println ("Le fichier n'a pas été trouvé");
+        }
+        return result;
+    }
+
 
     
 

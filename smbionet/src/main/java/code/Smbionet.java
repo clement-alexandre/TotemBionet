@@ -18,33 +18,9 @@ public class Smbionet {
     public Smbionet(){
     }
 
-
-    String ctll = "# exemple mucus graphe figure 6\n" +
-            "# haut page 21 : pas d'information sur les paramètres mais formule CTL\n" +
-            "\n" +
-            "VAR\n" +
-            "operon = 0 2;\n" +
-            "mucuB = 0 1;\n" +
-            "\n" +
-            "REG\n" +
-            "prod [(operon>=1)] => mucuB;\n" +
-            "free [!(mucuB>=1)] => operon;\n" +
-            "alg [(operon>=1)] => operon;\n" +
-            "\n" +
-            "PARA\n" +
-            "K_operon = 0 ;\n" +
-            "K_operon+alg = 2 ;\n" +
-            "# K_operon+free = 2 ;\n" +
-            "K_operon+alg+free = 2 ;\n" +
-            "K_mucuB = 0 ;\n" +
-            "K_mucuB+prod = 1 ;\n" +
-            "\n" +
-            "CTL\n" +
-            "(operon=0)->AG(!(mucuB=1)) & (operon=2)->AG(!(mucuB=0))";
-
     //Option s avec une entier en argument
 
-    public void generateInputFile(String grapheInfluence)  {
+    public String generateInputFile(String grapheInfluence)  {
         try {
             input = "./samples/result"+indiceFile;
             Out.printIn(input+".txt");
@@ -53,6 +29,7 @@ public class Smbionet {
         }catch (Exception e){
             System.err.println("\n"+e.getMessage());
         }
+        return grapheInfluence;
     }
 
 
@@ -140,6 +117,14 @@ public class Smbionet {
             }
         }else{
             System.out.println("pas input");
+        }
+    }
+
+    public String result(){
+        if(input != null) {
+            return Out.readFile(input + ".out");
+        }else{
+            return "Error pas de fichier:"+input;
         }
     }
 
