@@ -28,3 +28,9 @@ Run tests
 Execute the following command to run the test suite:
     
     `python -m unittest tests.test`
+
+
+Contributors
+------------
+
+Gabriel Flores-Lipa (gabriel.flores-lipa@etu.unice.fr)
