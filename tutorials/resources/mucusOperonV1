@@ -1,0 +1,14 @@
+# exemple mucus graphe figure 6
+# aucune information sur les paramètres
+# => 42 modèles possibles (paramétrages monotones)
+
+VAR
+operon = 0 2;
+mucuB = 0 1;
+
+REG
+prod [(operon>=1)] => mucuB;
+free [!(mucuB>=1)] => operon;
+alg [(operon>=1)] => operon;
+
+

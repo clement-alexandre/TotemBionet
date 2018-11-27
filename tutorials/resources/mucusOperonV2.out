@@ -1,0 +1,89 @@
+
+VAR
+
+operon = 0 2 ;
+mucuB = 0 1 ;
+
+REG
+
+free [(!(mucuB>=1))]=> operon ;
+alg [(operon>=1)]=> operon ;
+prod [(operon>=1)]=> mucuB ;
+
+PARA
+
+# Parameters for operon
+
+K_operon = 0 2 ;
+K_operon+alg = 2 ;
+K_operon+free = 0 2 ;
+K_operon+alg+free = 0 2 ;
+
+# Parameters for mucuB
+
+K_mucuB = 0 1 ;
+K_mucuB+prod = 1 ;
+
+# NO CTL FORMULA
+
+# MODEL 1
+
+# K_operon = 0
+# K_operon+alg = 2
+# K_operon+free = 0
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 2
+
+# K_operon = 0
+# K_operon+alg = 2
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 3
+
+# K_operon = 1 2
+# K_operon+alg = 2
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 4
+
+# K_operon = 0
+# K_operon+alg = 2
+# K_operon+free = 0
+# K_operon+alg+free = 2
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# MODEL 5
+
+# K_operon = 0
+# K_operon+alg = 2
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# MODEL 6
+
+# K_operon = 1 2
+# K_operon+alg = 2
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# SELECTED MODELS | CHECKED MODELS = 6 / 6 (75ms)

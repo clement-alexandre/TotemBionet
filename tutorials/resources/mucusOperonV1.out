@@ -1,0 +1,449 @@
+
+VAR
+
+operon = 0 2 ;
+mucuB = 0 1 ;
+
+REG
+
+free [(!(mucuB>=1))]=> operon ;
+alg [(operon>=1)]=> operon ;
+prod [(operon>=1)]=> mucuB ;
+
+PARA
+
+# Parameters for operon
+
+K_operon = 0 2 ;
+K_operon+alg = 0 2 ;
+K_operon+free = 0 2 ;
+K_operon+alg+free = 0 2 ;
+
+# Parameters for mucuB
+
+K_mucuB = 0 1 ;
+K_mucuB+prod = 0 1 ;
+
+# NO CTL FORMULA
+
+# MODEL 1
+
+# K_operon = 0
+# K_operon+alg = 0
+# K_operon+free = 0
+# K_operon+alg+free = 0
+
+# K_mucuB = 0
+# K_mucuB+prod = 0
+
+# MODEL 2
+
+# K_operon = 0
+# K_operon+alg = 0
+# K_operon+free = 0
+# K_operon+alg+free = 1
+
+# K_mucuB = 0
+# K_mucuB+prod = 0
+
+# MODEL 3
+
+# K_operon = 0
+# K_operon+alg = 1
+# K_operon+free = 0
+# K_operon+alg+free = 1
+
+# K_mucuB = 0
+# K_mucuB+prod = 0
+
+# MODEL 4
+
+# K_operon = 0
+# K_operon+alg = 0
+# K_operon+free = 1 2
+# K_operon+alg+free = 1
+
+# K_mucuB = 0
+# K_mucuB+prod = 0
+
+# MODEL 5
+
+# K_operon = 0
+# K_operon+alg = 1
+# K_operon+free = 1 2
+# K_operon+alg+free = 1
+
+# K_mucuB = 0
+# K_mucuB+prod = 0
+
+# MODEL 6
+
+# K_operon = 1 2
+# K_operon+alg = 1
+# K_operon+free = 1 2
+# K_operon+alg+free = 1
+
+# K_mucuB = 0
+# K_mucuB+prod = 0
+
+# MODEL 7
+
+# K_operon = 0
+# K_operon+alg = 0
+# K_operon+free = 0
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 0
+
+# MODEL 8
+
+# K_operon = 0
+# K_operon+alg = 1
+# K_operon+free = 0
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 0
+
+# MODEL 9
+
+# K_operon = 0
+# K_operon+alg = 2
+# K_operon+free = 0
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 0
+
+# MODEL 10
+
+# K_operon = 0
+# K_operon+alg = 0
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 0
+
+# MODEL 11
+
+# K_operon = 0
+# K_operon+alg = 1
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 0
+
+# MODEL 12
+
+# K_operon = 1 2
+# K_operon+alg = 1
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 0
+
+# MODEL 13
+
+# K_operon = 0
+# K_operon+alg = 2
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 0
+
+# MODEL 14
+
+# K_operon = 1 2
+# K_operon+alg = 2
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 0
+
+# MODEL 15
+
+# K_operon = 0
+# K_operon+alg = 0
+# K_operon+free = 0
+# K_operon+alg+free = 0
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 16
+
+# K_operon = 0
+# K_operon+alg = 0
+# K_operon+free = 0
+# K_operon+alg+free = 1
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 17
+
+# K_operon = 0
+# K_operon+alg = 1
+# K_operon+free = 0
+# K_operon+alg+free = 1
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 18
+
+# K_operon = 0
+# K_operon+alg = 0
+# K_operon+free = 1 2
+# K_operon+alg+free = 1
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 19
+
+# K_operon = 0
+# K_operon+alg = 1
+# K_operon+free = 1 2
+# K_operon+alg+free = 1
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 20
+
+# K_operon = 1 2
+# K_operon+alg = 1
+# K_operon+free = 1 2
+# K_operon+alg+free = 1
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 21
+
+# K_operon = 0
+# K_operon+alg = 0
+# K_operon+free = 0
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 22
+
+# K_operon = 0
+# K_operon+alg = 1
+# K_operon+free = 0
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 23
+
+# K_operon = 0
+# K_operon+alg = 2
+# K_operon+free = 0
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 24
+
+# K_operon = 0
+# K_operon+alg = 0
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 25
+
+# K_operon = 0
+# K_operon+alg = 1
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 26
+
+# K_operon = 1 2
+# K_operon+alg = 1
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 27
+
+# K_operon = 0
+# K_operon+alg = 2
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 28
+
+# K_operon = 1 2
+# K_operon+alg = 2
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 29
+
+# K_operon = 0
+# K_operon+alg = 0
+# K_operon+free = 0
+# K_operon+alg+free = 0
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# MODEL 30
+
+# K_operon = 0
+# K_operon+alg = 0
+# K_operon+free = 0
+# K_operon+alg+free = 1
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# MODEL 31
+
+# K_operon = 0
+# K_operon+alg = 1
+# K_operon+free = 0
+# K_operon+alg+free = 1
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# MODEL 32
+
+# K_operon = 0
+# K_operon+alg = 0
+# K_operon+free = 1 2
+# K_operon+alg+free = 1
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# MODEL 33
+
+# K_operon = 0
+# K_operon+alg = 1
+# K_operon+free = 1 2
+# K_operon+alg+free = 1
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# MODEL 34
+
+# K_operon = 1 2
+# K_operon+alg = 1
+# K_operon+free = 1 2
+# K_operon+alg+free = 1
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# MODEL 35
+
+# K_operon = 0
+# K_operon+alg = 0
+# K_operon+free = 0
+# K_operon+alg+free = 2
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# MODEL 36
+
+# K_operon = 0
+# K_operon+alg = 1
+# K_operon+free = 0
+# K_operon+alg+free = 2
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# MODEL 37
+
+# K_operon = 0
+# K_operon+alg = 2
+# K_operon+free = 0
+# K_operon+alg+free = 2
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# MODEL 38
+
+# K_operon = 0
+# K_operon+alg = 0
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# MODEL 39
+
+# K_operon = 0
+# K_operon+alg = 1
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# MODEL 40
+
+# K_operon = 1 2
+# K_operon+alg = 1
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# MODEL 41
+
+# K_operon = 0
+# K_operon+alg = 2
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# MODEL 42
+
+# K_operon = 1 2
+# K_operon+alg = 2
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 1
+# K_mucuB+prod = 1
+
+# SELECTED MODELS | CHECKED MODELS = 42 / 42 (209ms)
