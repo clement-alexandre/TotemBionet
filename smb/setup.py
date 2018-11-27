@@ -2,14 +2,14 @@
 
 from setuptools import setup, find_packages
 
-setup(name="smb_lib",
-    version='0.0.4',
+setup(name="smb-lib",
+    version='0.0.7',
     author = "Mohamed Chennouf",
     author_email = "mohamed.chennouf@etu.unice.fr",
     url = "https://github.com/clement-alexandre/TotemBionet",
     description = "smbionet librairie python",
     long_description = open("README.rst").read(),
-    install_requires = [],
+    install_requires = ["py4j"],
     license="WTFPL",
     include_package_data = True,
     packages = find_packages(),

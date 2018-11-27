@@ -8,6 +8,11 @@ RUN conda install --no-update-deps -y \
         model-picker=0.0.4 \
         && conda clean -y --all && rm -rf /opt/conda/pkgs
 
+RUN conda install --no-update-deps -y \
+        -c mohamedchennouf\
+        smb-lib=0.0.6 \
+        && conda clean -y --all && rm -rf /opt/conda/pkgs
+
 COPY tutorials /notebook/tutorials
 RUN chown -R user:user /notebook
 
