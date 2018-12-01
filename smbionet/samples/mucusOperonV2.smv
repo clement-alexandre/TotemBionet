@@ -14,13 +14,13 @@ case
 (operon>=1) & (!(mucuB>=1)) : 2 ; -- K_operon+alg+free
 (!(mucuB>=1)) : 1 ; -- K_operon+free
 (operon>=1) : 2 ; -- K_operon+alg
-1 : 1 ; -- K_operon
+TRUE : 1 ; -- K_operon
 esac;
 
 F_mucuB :=
 case
 (operon>=1) : 1 ; -- K_mucuB+prod
-1 : 1 ; -- K_mucuB
+TRUE : 1 ; -- K_mucuB
 esac;
 
 ASSIGN
@@ -35,7 +35,7 @@ esac;
 next(mucuB) :=
 case
 mucuB =  F_mucuB : mucuB ;
- 1 : {0, 1} ;
+ TRUE : {0, 1} ;
 esac;
 
 TRANS

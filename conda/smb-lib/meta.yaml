@@ -1,5 +1,5 @@
 {% set name = "smb-lib" %}
-{% set version = "0.0.6" %}
+{% set version = "0.0.11" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 3f6674d0136c47881316291a612ae30d08f033d900c975af616cd380209fd86d
+  sha256: 3acd802e0139e4d208e538dc1fa95d9c45fdab296c8a73f2be5c5cd3dafd8753
 
 build:
   number: 0
@@ -37,7 +37,4 @@ about:
 
 extra:
   recipe-maintainers:
-    - mohamedchennouf
-
-target_platform:
-  - linux-64
+    - your-github-id-here
