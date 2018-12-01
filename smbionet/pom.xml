@@ -6,7 +6,7 @@
 
     <groupId>testpfe</groupId>
     <artifactId>test</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1</version>
 
     <dependencies>
         <dependency>
@@ -15,15 +15,6 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.mangosdk.spi</groupId>
-            <artifactId>spi</artifactId>
-            <version>0.2.4</version>
-            <!-- only needed to compile: this allows to exclude it from copy-dependencies goal -->
-            <scope>provided</scope>
-        </dependency>
-
 
         <!-- core GINsim dependencies -->
         <dependency>
@@ -71,5 +62,29 @@
 
     </dependencies>
 
+    <properties>
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+    </properties>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <!-- Build an executable JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>code.SmbionetEntryPoint</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

@@ -1,10 +1,5 @@
-FROM openjdk:8
-
-RUN mkdir -p application
-
-COPY ./src ./application
-COPY ./pom.xml ./application/pom.xml
-
-WORKDIR /usr/local/
-
-ENTRYPOINT ["java","SmbionetEntryPoint"]
+FROM java:8
+WORKDIR /
+ADD test.jar test.jar
+EXPOSE 25333
+CMD java -cp test.jar code.SmbionetEntryPoint

@@ -1,3 +1,5 @@
+# -*- coding: utf8 -*-
+
 from py4j.java_gateway import JavaGateway
 
 
@@ -16,16 +18,22 @@ class SmbionetException(Exception):
 
 
 
-def addGrapheInfluence(graphe):
-    smbionet.generateInputFile(graphe)
-    return graphe
+def addGrapheInfluence(graphe,ctl):
+    smbionet.generateInput(graphe,ctl)
+    return "graphe :"+graphe +" ctl : "+ ctl
 
-def addCTL(ctl):
-    smbionet.addCTL(ctl)
-    return ctl
+
+def generateInputwithPath(pathGraph , pathCTL):
+    smbionet.generateInputwithPath(pathGraph,pathCTL)
+    return "generation sucessfull"
+
 
 def runSMBionet():
     smbionet.run()
+    return "SMBionet is running"
+
+def runSMBionetPathFile(path):
+    smbionet.run(path)
     return "SMBionet is running"
 
 def resultSMBionet():
