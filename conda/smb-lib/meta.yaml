@@ -1,5 +1,5 @@
 {% set name = "smb-lib" %}
-{% set version = "0.0.11" %}
+{% set version = "0.0.14" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 3acd802e0139e4d208e538dc1fa95d9c45fdab296c8a73f2be5c5cd3dafd8753
+  sha256: fa29b6ff7d82a73a3dd8e0aee28735dc73a2f4298488e315d7024f8ce3fc6ce8
 
 build:
   number: 0

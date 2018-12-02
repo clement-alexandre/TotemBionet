@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+
+
+  # Services for managing ORDER
+  smb:                      # service orders, on port 9080
+    container_name: smb
+    image: totembionet/smbionet-document
+    depends_on:
+      - database1
+    ports:
+      - "9080:8080"
+    links:
+      - database1
+
+
+  database1:                       # MongoDB database : orders, on port 27017
+    container_name: smbionet-database
+    image: mongo:3.0
+    volumes:
+      - "./db/mongo_data1:/data/db"
+    ports:
+      - "27017:27017"

@@ -11,7 +11,7 @@ public class Smbionet {
     private static Clock c;
     private static long nbParas;
     private static long nbGoodParas;
-    private String input;
+    private String input = "result";
     private List<String> opts = new List<String>();
     private int indiceFile = 0;
 
@@ -24,6 +24,17 @@ public class Smbionet {
             Out.printIn(input+".txt");
             Out.pf(grapheInfluence);
             Out.pf(ctl);
+            Out.close();
+            indiceFile++;
+        }catch (Exception e){
+            System.err.println("\n"+e.getMessage());
+        }
+    }
+
+    public void generateInput(String entre)  {
+        try {
+            Out.printIn(input+".txt");
+            Out.pf(entre);
             Out.close();
             indiceFile++;
         }catch (Exception e){
@@ -49,21 +60,15 @@ public class Smbionet {
             try {
                 //Fichier de sortie
                 Out.printIn(getOpt("-o", input + ".out", opts));
+                System.out.println("ficher ok");
                 //Niveau d'�criture
                 Out.setVerb(getOpt("-v", 0, opts));
+                System.out.println("niveau ecriture ok");
 
                 //CONSTRUCTION DU R�SEAU
                 Net net = new Net(input+".txt");
                 net.printoo();
-                if (getOpt("-comp", opts))
-                    System.exit(0);
 
-                //SIMULATION
-                if (getOpt("-simu", opts)) {
-                    Simu.run(net);
-                    Out.close();
-                    System.exit(0);
-                }
 
                 //ENUMERATION/SELECTION
                 //Options
@@ -82,6 +87,7 @@ public class Smbionet {
                 do {
                     nbParas++;
                     //S�lection
+                    boolean t = NuSMV.check(net, input + ".smv", dynamic, inversion);
                     if (NuSMV.check(net, input + ".smv", dynamic, inversion)) {
                         //Ecriture du param�trage dans le fichier de sortie
                         nbGoodParas++;
@@ -101,7 +107,7 @@ public class Smbionet {
                 Out.pln("# SELECTED MODELS | CHECKED MODELS = " +
                         nbGoodParas + " / " + nbParas + " (" + c + ")");
                 Out.close();
-                //System.exit(0);
+
 
             } catch (InterruptedException e) {
                 System.err.println("\n" + e.getMessage());
@@ -206,7 +212,15 @@ public class Smbionet {
         if(input != null) {
             return Out.readFile(input + ".out");
         }else{
-            return "Error pas de fichier:"+input;
+            return "Error pas de fichier omg:"+input;
+        }
+    }
+
+    public String readInput(){
+        if(input != null) {
+            return Out.readFile(input + ".txt");
+        }else{
+            return "Error bro:"+input;
         }
     }
 

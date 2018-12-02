@@ -4,84 +4,46 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>testpfe</groupId>
-    <artifactId>test</artifactId>
-    <version>1</version>
+    <groupId>totembionet</groupId>
+    <artifactId>smbionet</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+    <name> TotemBionet </name>
+
+
+    <modules>
+        <module>smbionetjava</module>
+    </modules>
+
+    <properties>
+        <versions.tomee>7.0.3</versions.tomee>
+    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- core GINsim dependencies -->
-        <dependency>
-            <groupId>org.jgrapht</groupId>
-            <artifactId>jgrapht-core</artifactId>
-            <version>0.9.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.sf.py4j</groupId>
-            <artifactId>py4j</artifactId>
-            <version>0.10.6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.python</groupId>
-            <artifactId>jython-standalone</artifactId>
-            <version>2.5.3</version>
+            <groupId>org.apache.tomee</groupId>
+            <artifactId>tomee-embedded</artifactId>
+            <version>${versions.tomee}</version>
             <scope>provided</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math3</artifactId>
-            <version>3.6.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.ejml</groupId>
-            <artifactId>simple</artifactId>
-            <version>0.29</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.ejml</groupId>
-            <artifactId>dense64</artifactId>
-            <version>0.29</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.ejml</groupId>
-            <artifactId>core</artifactId>
-            <version>0.29</version>
-        </dependency>
-
     </dependencies>
 
-    <properties>
-        <maven.compiler.source>1.6</maven.compiler.source>
-        <maven.compiler.target>1.6</maven.compiler.target>
-    </properties>
-
-
     <build>
+        <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>
-                <!-- Build an executable JAR -->
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
+                <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.4</version>
-
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomee.maven</groupId>
+                <artifactId>tomee-maven-plugin</artifactId>
+                <version>9.0.12</version>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>code.SmbionetEntryPoint</mainClass>
-                        </manifest>
-                    </archive>
+                    <tomeeClassifier>plus</tomeeClassifier>
+                    <args>-Xmx512m -XX:PermSize=256m</args>
+                    <deployOpenEjbApplication>true</deployOpenEjbApplication>
                 </configuration>
             </plugin>
         </plugins>

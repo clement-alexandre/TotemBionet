@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 
-from .smb_lib import addGrapheInfluence, addCTL , runSMBionet, helloword, resultSMBionet, SmbionetException
+from .smbLib import consulteExperiences, runSmbionet
 
 
-__all__ = ['addGrapheInfluence', 'addCTL', 'runSMBionet','helloword', 'resultSMBionet', 'SmbionetException']
+__all__ = ['consulteExperiences', 'runSmbionet']
