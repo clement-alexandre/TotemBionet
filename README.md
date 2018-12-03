@@ -30,6 +30,8 @@ If you want to remove the docker image from your computer, just run `make remove
 
 Check the [CONTRIBUTING.md](CONTRIBUTING.md) to contribute.
 
+If you just want to add your private library for your personal use, read the [PRIVATE_EXTENSION.md](PRIVATE_EXTENSION.md).
+
 ## License
 
 [WTFPL](LICENSE)
