@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(name="simu-net",
-    version='0.0.1',
+    version='0.0.2',
     author = "Alexandre Clement",
     author_email = "alexandre.clement@etu.unice.fr",
     url = "https://github.com/clement-alexandre/TotemBionet",

@@ -1,3 +1,5 @@
+# -*- coding: utf8 -*-
+
 import unittest
 from discrete_model import parse_smbionet_output_file, InfluenceGraph, DiscreteModel
 from simu_net import Simulation, Result

@@ -2,7 +2,7 @@
 
 import random
 from typing import Dict, List
-from discrete_model import DiscreteModel, InfluenceGraph, Variable, Transition
+from discrete_model import DiscreteModel, InfluenceGraph, Gene, Transition
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -16,37 +16,32 @@ class Simulation:
 
     def run(self) -> 'Result':
         states = [self.initial_state or {
-            variable: self.random.choice(variable.states)
-            for variable in self.model.influence_graph.list_variables()
+            gene: self.random.choice(gene.states)
+            for gene in self.model.influence_graph.list_genes()
         }]
         for _ in range(self.steps-1):
             states.append(self._next_step(states[-1]))
         return Result(self, states)
 
-    def _next_step(self, states: Dict[Variable, int]):
-        return {variable: self.random.choice(self._future(variable, states))
-                for variable, state in states.items()}
+    def _next_step(self, states: Dict[Gene, int]):
+        return {gene: self._future(gene, states) for gene, state in states.items()}
 
-    def _future(self, variable, states):
-        active_process = tuple(process for process in variable.process
-                               if process.is_active(**{v.name: s for v, s in states.items()}))
-        transition = self.model.find_transition(variable, tuple(active_process))
-        return transition.states
+    def _future(self, gene, states):
+        available_states = self.model.available_state(gene, states)
+        return self.random.choice(available_states)
 
 
 class Result:
-    def __init__(self, simulation: Simulation, states: List[Dict[Variable, int]]):
+    def __init__(self, simulation: Simulation, states: List[Dict[Gene, int]]):
         self.simulation = simulation
         self.states = states
-    
-    def plot_evolution(self):
-        variables = self.simulation.model.influence_graph.list_variables()
-        t = np.arange(0, len(self.states), 1)
-        fig, ax = plt.subplots()
-        
-        for variable in variables:
-            ax.plot(t, [state[variable] for state in self.states])
 
+    def plot_evolution(self):
+        genes = self.simulation.model.influence_graph.list_genes()
+        t = np.arange(0, len(self.states), 1)
+        _, ax = plt.subplots()
+        for gene in genes:
+            ax.plot(t, [state[gene] for state in self.states])
         ax.set(xlabel='step', ylabel='state', title='Simulation')
         ax.grid()
         plt.show()

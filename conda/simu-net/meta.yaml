@@ -1,5 +1,5 @@
 {% set name = "simu-net" %}
-{% set version = "0.0.1" %}
+{% set version = "0.0.2" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 3e1cf81ff6572a47565ed65d386c68581bc6c553d247ec884488232ea3ce1dbc
+  sha256: 4bcc2f0e66bd8b50d21f9501e6019375c897954c23279a9648b0812c79a848bb
 
 build:
   number: 0
@@ -39,4 +39,4 @@ about:
 
 extra:
   recipe-maintainers:
-    - your-github-id-here
+    - clement-alexandre
