@@ -3,13 +3,13 @@
 from setuptools import setup, find_packages
 
 setup(name="smb-lib",
-    version='0.0.15',
+    version='0.1.1',
     author = "Mohamed Chennouf",
     author_email = "mohamed.chennouf@etu.unice.fr",
     url = "https://github.com/clement-alexandre/TotemBionet",
     description = "smbionet librairie python",
     long_description = open("README.rst").read(),
-    install_requires = ["py4j"],
+    install_requires = ["requests"],
     license="WTFPL",
     include_package_data = True,
     packages = find_packages(),
