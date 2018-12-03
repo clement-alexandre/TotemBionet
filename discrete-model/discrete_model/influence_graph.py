@@ -2,7 +2,6 @@
 
 from typing import List, Dict, Tuple, Set
 from collections import defaultdict, namedtuple
-from dataclasses import dataclass
 
 
 class Gene:

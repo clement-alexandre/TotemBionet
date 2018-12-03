@@ -8,14 +8,6 @@ import networkx as nx
 from networkx.drawing.nx_pydot import to_pydot, write_dot
 from discrete_model import DiscreteModel, Gene, InfluenceGraph
 
-Variables = Dict[str, List[int]]
-Relations = Dict[str, Dict[str, int]]
-Mutliplex = Dict[str, Dict[str, str]]
-State = Dict[Gene, int]
-Level = Tuple[List[int]]
-FP = Dict[str, int]
-DFP = Dict[str, int]
-
 
 class Graph(nx.DiGraph):
     def __eq__(self, other):
@@ -24,25 +16,6 @@ class Graph(nx.DiGraph):
 
 def _list_to_str(lst: Iterable[Any]) -> str:
     return ''.join(map(str, lst))
-
-
-def _assign_k(model: DiscreteModel, state: State, var: str) -> str:
-    k = "K_%s" % var
-    if not var in model.multiplex:
-        return k
-    for multiplex, expression in sorted(model.multiplex[var].items()):
-        if not expression or eval(expression, state.copy()):
-            k = k + "+%s" % multiplex
-    return k
-
-
-def _fp(model: DiscreteModel, s: State) -> FP:
-    return {var: model.relations[var][_assign_k(model, s, var)] for var in s}
-
-
-def _dfp(model: DiscreteModel, s: State):
-    fp = _fp(model, s)
-    return [s[v] + (s[v] < fp[v]) - (s[v] > fp[v]) for v in model.influence_graph.genes]
 
 
 def create_graph(model: DiscreteModel) -> Graph:

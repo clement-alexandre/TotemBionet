@@ -24,7 +24,6 @@ class Test(unittest.TestCase):
         _, model2 = parse_smbionet_output_file('resources/mucusOperonV3.out')
         operon = model2.influence_graph.find_gene_by_name('operon')
         mucuB = model2.influence_graph.find_gene_by_name('mucuB')
-        free = model2.influence_graph.find_process_by_name('free')
         self.assertEqual((1,), model2.available_state(operon, {operon: 0, mucuB: 0}))
         self.assertEqual((2,), model2.available_state(operon, {operon: 1, mucuB: 0}))
         self.assertEqual((2,), model2.available_state(operon, {operon: 2, mucuB: 0}))
