@@ -1,10 +1,10 @@
 from .parser import parse_smbionet_output_string, parse_smbionet_output_file
-from .influence_graph import InfluenceGraph, Variable, Process
+from .influence_graph import InfluenceGraph, Gene, Process
 from .discrete_model import DiscreteModel, Transition
 
 
 __all__ = [
-    'Variable',
+    'Gene',
     'Process',
     'Transition',
     'DiscreteModel',

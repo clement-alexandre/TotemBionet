@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(name="discrete-model",
-    version='0.1.0',
+    version='0.1.1',
     author = "Alexandre Clement",
     author_email = "alexandre.clement@etu.unice.fr",
     url = "https://github.com/clement-alexandre/TotemBionet",

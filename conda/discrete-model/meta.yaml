@@ -1,5 +1,5 @@
 {% set name = "discrete-model" %}
-{% set version = "0.1.0" %}
+{% set version = "0.1.1" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 7733e60633b5872104a380d33e4b76553ae853537c899890e69ef765ed373e6f
+  sha256: 289ff62e3fe914f2880cc64a8d1ae8ad52d2dd73ab81714dc662ee7d58eb0340
 
 build:
   number: 0
@@ -35,4 +35,4 @@ about:
 
 extra:
   recipe-maintainers:
-    - clement-alexandre
+    - your-github-id-here

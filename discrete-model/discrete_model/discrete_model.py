@@ -1,9 +1,9 @@
 # -*- coding: utf8 -*-
 
 from collections import defaultdict, namedtuple
-from typing import List, Tuple, Dict, Union, FrozenSet
+from typing import List, Tuple, Dict, Union, FrozenSet, Iterable
 
-from .influence_graph import InfluenceGraph, Variable, Process
+from .influence_graph import InfluenceGraph, Gene, Process
 
 
 
@@ -18,11 +18,11 @@ class DiscreteModel:
         self.transitions: List[Transition] = []
 
     def add_transition(self, gene: str, process: Tuple[str], states: Tuple[int]):
-        gene = self.influence_graph.find_variable_by_name(gene)
+        gene = self.influence_graph.find_gene_by_name(gene)
         process = tuple(self.influence_graph.find_process_by_name(p) for p in process)
         self.transitions.append(Transition(gene, process, states))
     
-    def find_transition(self, gene: Variable, process: Tuple[Process]):
+    def find_transition(self, gene: Gene, process: Tuple[Process]):
         for transition in self.transitions:
             if transition.gene == gene and set(transition.process) == set(process):
                 return transition
@@ -30,6 +30,20 @@ class DiscreteModel:
 
     def list_transitions(self) -> Tuple[Transition]:
         return tuple(self.transitions)
+
+    def available_state(self, gene: Gene, states: Dict[Gene, int]) -> Tuple[int]:
+        return tuple(self._available_state(gene, states))
+    
+    def _available_state(self, gene: Gene, states: Dict[Gene, int]) -> Iterable[int]:
+        done = set()
+        active_process = gene.active_process(states)
+        transition = self.find_transition(gene, active_process)
+        current_state = states[gene]
+        for state in transition.states:
+            next_state = current_state + (current_state < state) - (current_state > state)
+            if next_state not in done:
+                done.add(next_state)
+                yield next_state
 
     def __str__(self):
         string = str(self.influence_graph)

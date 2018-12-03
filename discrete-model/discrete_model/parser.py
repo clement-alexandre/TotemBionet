@@ -15,13 +15,13 @@ def parse_smbionet_output_file(filename: str) -> Tuple[DiscreteModel]:
 def parse_smbionet_output_string(string: str) -> Tuple[DiscreteModel]:
     graph = InfluenceGraph()
     match = _create_pattern().match(string)
-    _parse_variables(match['variables'], graph)
+    _parse_genes(match['genes'], graph)
     _parse_process(match['process'], graph)
     return tuple(_parse_models(match['models'], graph))
 
 
 def _create_pattern() -> re.Pattern:
-    read_variables = r'\s*VAR(?P<variables>(?:.|\s)*?)'
+    read_genes = r'\s*VAR(?P<genes>(?:.|\s)*?)'
     read_process = r'REG(?P<process>(?:.|\s)*?)'
     read_parameters = r'(?:PARA(?P<parameters>(?:.|\s)*?))?'
     read_ctl = r'(?:CTL(?P<ctl>(?:.|\s)*?))?'
@@ -29,7 +29,7 @@ def _create_pattern() -> re.Pattern:
     read_check = r'(?P<checks>#\s*SELECTED MODELS(?:.|\s)*?)?'
     return re.compile(
         '^'
-        + read_variables
+        + read_genes
         + read_process
         + read_parameters
         + read_ctl
@@ -39,11 +39,11 @@ def _create_pattern() -> re.Pattern:
     )
 
 
-def _parse_variables(string: str, graph: InfluenceGraph):
+def _parse_genes(string: str, graph: InfluenceGraph):
     pattern = re.compile(
-        r'\s*(?P<variable>\w+)\s*=\s*(?P<start>\d+)\s+(?P<end>\d+)\s*;')
+        r'\s*(?P<gene>\w+)\s*=\s*(?P<start>\d+)\s+(?P<end>\d+)\s*;')
     for match in pattern.finditer(string):
-        graph.add_variable(match['variable'], int(
+        graph.add_gene(match['gene'], int(
             match['start']), int(match['end']))
 
 
@@ -73,9 +73,9 @@ def _parse_models(string: str, graph: InfluenceGraph) -> Iterable[DiscreteModel]
 def _parse_k_assigments(string: str, graph: InfluenceGraph) -> DiscreteModel:
     model = DiscreteModel(graph)
     pattern = re.compile(
-        r'#\s*K_(?P<variable>[^\s=]+)\s*=\s*(?P<states>(?:\d+\s+)*?\d+)\s*$', flags=re.MULTILINE)
+        r'#\s*K_(?P<gene>[^\s=]+)\s*=\s*(?P<states>(?:\d+\s+)*?\d+)\s*$', flags=re.MULTILINE)
     for match in pattern.finditer(string):
-        variable, *context = match['variable'].split('+')
-        model.add_transition(variable, tuple(context),
+        gene, *context = match['gene'].split('+')
+        model.add_transition(gene, tuple(context),
                              tuple(map(int, match['states'].split())))
     return model

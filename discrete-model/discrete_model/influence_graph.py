@@ -5,7 +5,7 @@ from collections import defaultdict, namedtuple
 from dataclasses import dataclass
 
 
-class Variable:
+class Gene:
     def __init__(self, name, states):
         self.name = name
         self.states = states
@@ -14,9 +14,12 @@ class Variable:
     def add_process(self, process: 'Process'):
         if process not in self.process:
             self.process.append(process)
+    
+    def active_process(self, state: Dict['Gene', int]) -> Tuple['Process']:
+        return tuple(process for process in self.process if process.is_active(state))
 
     def __eq__(self, other):
-        if not isinstance(other, Variable):
+        if not isinstance(other, Gene):
             return False
         return self.name == other.name and self.states == other.states
     
@@ -31,7 +34,7 @@ class Variable:
 
 
 class Expression(namedtuple('Expression', 'expression')):
-    def evaluate(self, **params):
+    def evaluate(self, **params: int):
         return eval(self.expression, params)
     
     def __str__(self):
@@ -39,12 +42,13 @@ class Expression(namedtuple('Expression', 'expression')):
 
 
 class Process(namedtuple('Process', 'name genes expression')):
-    def __init__(self, name: str, genes: Tuple[Variable], expression: Expression):
+    def __init__(self, name: str, genes: Tuple[Gene], expression: Expression):
         for gene in genes:
             gene.add_process(self)
 
-    def is_active(self, **states):
-        return self.expression.evaluate(**states)
+    def is_active(self, states: Dict[Gene, int]):
+        params = {gene.name: state for gene, state in states.items()}
+        return self.expression.evaluate(**params)
 
     def __str__(self):
         return f'{self.name} : {self.expression} → {" ".join([gene.name for gene in self.genes])}'
@@ -52,25 +56,24 @@ class Process(namedtuple('Process', 'name genes expression')):
 
 class InfluenceGraph:
     def __init__(self):
-        self.variables: List[Variable] = []
+        self.genes: List[Gene] = []
         self.process: List[Process] = []
 
-    def add_variable(self, name: str, state_min: int, state_max: int):
-        self.variables.append(
-            Variable(name, tuple(range(state_min, state_max+1))))
+    def add_gene(self, name: str, state_min: int, state_max: int):
+        self.genes.append(Gene(name, tuple(range(state_min, state_max+1))))
 
-    def find_variable_by_name(self, variable_name: str) -> Variable:
-        for variable in self.variables:
-            if variable.name == variable_name:
-                return variable
-        raise AttributeError(f'variable "{variable_name}" does not exist')
+    def find_gene_by_name(self, gene_name: str) -> Gene:
+        for gene in self.genes:
+            if gene.name == gene_name:
+                return gene
+        raise AttributeError(f'gene "{gene_name}" does not exist')
 
-    def list_variables(self) -> Tuple[Variable]:
-        return tuple(self.variables)
+    def list_genes(self) -> Tuple[Gene]:
+        return tuple(self.genes)
 
     def add_process(self, name: str, expression: str, *genes: str):
-        variables = tuple(self.find_variable_by_name(gene) for gene in genes)
-        process = Process(name, variables, Expression(expression))
+        genes = tuple(self.find_gene_by_name(gene) for gene in genes)
+        process = Process(name, genes, Expression(expression))
         self.process.append(process)
 
     def find_process_by_name(self, process_name: str) -> Process:
@@ -83,8 +86,8 @@ class InfluenceGraph:
         return tuple(self.process)
 
     def __str__(self):
-        string = '\nInfluenceGraph\n\tvariables:\n\t\t'
-        string += '\n\t\t'.join(map(str, self.list_variables()))
+        string = '\nInfluenceGraph\n\tgenes:\n\t\t'
+        string += '\n\t\t'.join(map(str, self.list_genes()))
         string += '\n\tprocess\n\t\t'
         string += '\n\t\t'.join(map(str, self.list_process()))
         return string
@@ -94,5 +97,5 @@ class InfluenceGraph:
     def __eq__(self, other):
         if not isinstance(other, InfluenceGraph):
             return False
-        return (self.variables == other.variables
+        return (self.genes == other.genes
                 and self.process == other.process)
