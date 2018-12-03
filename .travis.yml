@@ -2,7 +2,7 @@ matrix:
   include:
     - name: "ggea"
       language: python
-      python: 3.6
+      python: 3.7-dev
       before_install:
         - cd ggea
       install:
@@ -14,7 +14,7 @@ matrix:
         - codecov
     - name: "model-picker"
       language: python
-      python: 3.6
+      python: 3.7-dev
       before_install:
         - cd model-picker
       install:
@@ -26,9 +26,9 @@ matrix:
         - codecov
     - name: "dicrete-model"
       language: python
-      python: 3.6
+      python: 3.7-dev
       before_install:
-        - cd dicrete-model
+        - cd discrete-model
       install:
         - pip install .
         - pip install codecov
@@ -38,7 +38,7 @@ matrix:
         - codecov
     - name: "simu-net"
       language: python
-      python: 3.6
+      python: 3.7-dev
       before_install:
         - cd simu-net
       install:
