@@ -18,7 +18,7 @@ class Handler {
 
     static JSONObject expAllModel(JSONObject input) {
         MongoCollection experiences = getExperience();
-        Experience data = new Experience(input.getJSONObject("experience"));
+        Experience data = new Experience(input.getJSONObject("experience"),true);
         experiences.insert(data);
         return new JSONObject().put("inserted", true).put("experience",data.toJson());
     }
@@ -26,7 +26,7 @@ class Handler {
 
     static JSONObject expValidateModel(JSONObject input) {
         MongoCollection experiences = getExperience();
-        Experience data = new Experience(input.getJSONObject("experience"));
+        Experience data = new Experience(input.getJSONObject("experience"),false);
         experiences.insert(data);
         return new JSONObject().put("inserted", true).put("experience",data.toJson());
     }
@@ -41,13 +41,10 @@ class Handler {
         return new JSONObject().put("experiences", array);
     }
 
-    static JSONObject purge(JSONObject input) {
+    static JSONObject purge() {
         MongoCollection experience = getExperience();
-        if(input.getString("use_with").equals("caution")) {
-            experience.drop();
-            return new JSONObject().put("purge", "done");
-        }
-        throw new RuntimeException("Safe word does not match what is expected!");
+        experience.drop();
+        return new JSONObject().put("purge", "done");
     }
     
     private static MongoCollection getExperience() {

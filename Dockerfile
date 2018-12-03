@@ -14,7 +14,7 @@ RUN conda install --no-update-deps -y \
 
 RUN conda install --no-update-deps -y \
         -c mohamedchennouf\
-        smb-lib=0.1.2 \
+        smb-lib=0.1.4 \
         && conda clean -y --all && rm -rf /opt/conda/pkgs
 
 COPY tutorials /notebook/tutorials

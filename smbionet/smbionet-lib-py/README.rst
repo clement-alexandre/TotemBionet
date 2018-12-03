@@ -8,6 +8,8 @@ librairie anaconda : https://anaconda.org/mohamedchennouf/smb-lib/
 
 import smb_lib
 
-ip = "Ip of your API smbionet" #you can have in SMBIONET.md after running ./build.sh
-smb_lib(ip).runSmbionet("graphe","ctl")
-smb_lib(ip).consulteExperiences()
+smb = smb_lib.smbionet("192.168.1.17")  # you can have ip in SMBIONET.md after running ./build.sh
+smb.runSmbionet(graphe,ctl)
+smb.consulteExperiences()
+smb.purge()
+...

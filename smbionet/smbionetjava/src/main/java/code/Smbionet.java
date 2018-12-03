@@ -13,49 +13,23 @@ public class Smbionet {
     private static long nbGoodParas;
     private String input = "result";
     private List<String> opts = new List<String>();
-    private int indiceFile = 0;
 
     public Smbionet(){
     }
 
-    public void generateInput(String grapheInfluence, String ctl)  {
-        try {
-            input = "./samples/result"+indiceFile;
-            Out.printIn(input+".txt");
-            Out.pf(grapheInfluence);
-            Out.pf(ctl);
-            Out.close();
-            indiceFile++;
-        }catch (Exception e){
-            System.err.println("\n"+e.getMessage());
-        }
-    }
 
     public void generateInput(String entre)  {
         try {
             Out.printIn(input+".txt");
             Out.pf(entre);
             Out.close();
-            indiceFile++;
         }catch (Exception e){
             System.err.println("\n"+e.getMessage());
         }
     }
 
-    public void generateInputwithPath(String grapheInfluencePath,String ctlPath)  {
-        try {
-            input = "./samples/result"+indiceFile;
-            Out.printIn(input+".txt");
-            Out.pf(Out.readFile(grapheInfluencePath));
-            Out.pf(Out.readFile(ctlPath));
-            Out.close();
-            indiceFile++;
-        }catch (Exception e){
-            System.err.println("\n"+e.getMessage());
-        }
-    }
 
-    public void run(){
+    public void run(boolean allModel){
         if(input != null) {
             try {
                 //Fichier de sortie
@@ -97,9 +71,11 @@ public class Smbionet {
                         Out.pfln("\n");
                         net.printCurrentParameterization();
                     } else {
-                        Out.pf("# IMODEL");
-                        Out.pfln("\n");
-                        net.printCurrentParameterization();
+                        if(allModel) {
+                            Out.pf("# IMODEL");
+                            Out.pfln("\n");
+                            net.printCurrentParameterization();
+                        }
                     }
                     //Changement de param�trage
                 } while (net.nextParameterization());
@@ -107,8 +83,6 @@ public class Smbionet {
                 Out.pln("# SELECTED MODELS | CHECKED MODELS = " +
                         nbGoodParas + " / " + nbParas + " (" + c + ")");
                 Out.close();
-
-
             } catch (InterruptedException e) {
                 System.err.println("\n" + e.getMessage());
                 //e.printStackTrace();
@@ -128,87 +102,7 @@ public class Smbionet {
     }
 
 
-
-    public String run(String inputfile){
-        input = inputfile;
-        if(input != null) {
-            try {
-                //Fichier de sortie
-                Out.printIn(getOpt("-o", input + ".out", opts));
-                //Niveau d'�criture
-                Out.setVerb(getOpt("-v", 0, opts));
-
-                //CONSTRUCTION DU R�SEAU
-                Net net = new Net(input);
-                net.printoo();
-                if (getOpt("-comp", opts))
-                    System.exit(0);
-
-                //SIMULATION
-                if (getOpt("-simu", opts)) {
-                    Simu.run(net);
-                    Out.close();
-                    System.exit(0);
-                }
-
-                //ENUMERATION/SELECTION
-                //Options
-                NuSMV.setPath(getOpt("-path", "NuSMV", opts));
-                boolean dynamic = opts.contains("-dynamic");
-                boolean inversion = opts.contains("-inversion");
-                //Comptage
-                nbParas = 0;
-                nbGoodParas = 0;
-                //Pour l'affichage toute les secondes
-                c = new Clock();
-                Timer timer = new Timer();
-                timer.schedule(new Banner(), 0, 1000);
-                //Premier param�trage
-                net.firstParameterization();
-                do {
-                    nbParas++;
-                    //S�lection
-                    if (NuSMV.check(net, input + ".smv", dynamic, inversion)) {
-                        //Ecriture du param�trage dans le fichier de sortie
-                        nbGoodParas++;
-                        Out.pf("# MODEL " + nbGoodParas);
-                        if (Out.verb() > 0)
-                            Out.pf(" (id = " + net.idCurrentParameterization() + ")");
-                        Out.pfln("\n");
-                        net.printCurrentParameterization();
-                    } else {
-                        Out.pf("# IMODEL");
-                        Out.pfln("\n");
-                        net.printCurrentParameterization();
-                    }
-                    //Changement de param�trage
-                } while (net.nextParameterization());
-                Out.pr();
-                Out.pln("# SELECTED MODELS | CHECKED MODELS = " +
-                        nbGoodParas + " / " + nbParas + " (" + c + ")");
-                Out.close();
-                //System.exit(0);
-
-            } catch (InterruptedException e) {
-                System.err.println("\n" + e.getMessage());
-                //e.printStackTrace();
-                System.exit(2);
-            } catch (FileNotFoundException e) {
-                System.err.println("\n" + e.getMessage());
-                //e.printStackTrace();
-                System.exit(2);
-            } catch (Exception e) {
-                System.err.println("\n" + e.getMessage());
-                //e.printStackTrace();
-                System.exit(2);
-            }
-        }else{
-            System.out.println("pas input");
-        }
-        return result();
-    }
-
-    public String result(){
+    public String readResult(){
         if(input != null) {
             return Out.readFile(input + ".out");
         }else{
@@ -252,9 +146,6 @@ public class Smbionet {
         return opts.contains(s);
     }
 
-    public void helloword(){
-        System.out.println("ok momo");
-    }
 
     //Pour l'affichage toutes les secondes
 
@@ -282,14 +173,6 @@ public class Smbionet {
 
     public void setOpts(List<String> opts) {
         this.opts = opts;
-    }
-
-    public int getIndiceFile() {
-        return indiceFile;
-    }
-
-    public void setIndiceFile(int indiceFile) {
-        this.indiceFile = indiceFile;
     }
 
 }

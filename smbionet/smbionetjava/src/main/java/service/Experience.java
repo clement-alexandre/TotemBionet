@@ -13,21 +13,20 @@ public class Experience {
     @MongoObjectId
     String _id;
 
-    public Experience(JSONObject data) {
+    public Experience(JSONObject data,boolean allModel) {
         this.id = data.getString("id");
         this.input = data.getString("input");
-        this.output = getOutput(data.getString("input"));
+        this.output = getOutput(data.getString("input"),allModel);
     }
 
     public Experience() {} // ne pas enlever, c'est pour instancier la class avec findOne(...Experience.class)
 
 
-    public String getOutput(String input){
+    public String getOutput(String input, boolean allModel){
         Smbionet smb = new Smbionet();
         smb.generateInput(input);
-        //String result = smb.readInput();
-        smb.run();
-        return smb.result();
+        smb.run(allModel);
+        return smb.readResult();
     }
 
 
