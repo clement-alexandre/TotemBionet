@@ -5,7 +5,6 @@ import org.json.JSONObject;
 import code.Smbionet;
 
 public class Experience {
-    private String id;
     private String input;
     private String output;
 
@@ -14,7 +13,6 @@ public class Experience {
     String _id;
 
     public Experience(JSONObject data,boolean allModel) {
-        this.id = data.getString("id");
         this.input = data.getString("input");
         this.output = getOutput(data.getString("input"),allModel);
     }
@@ -32,14 +30,13 @@ public class Experience {
 
     public JSONObject toJson() {
         return new JSONObject()
-                .put("id", id)
                 .put("input", input)
                 .put("output", output);
     }
 
     @Override
     public String toString(){
-        return "id: "+id+", input: "+input+", output: "+output;
+        return "input: "+input+", output: "+output;
     }
 
 }
