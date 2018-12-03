@@ -1,0 +1,42 @@
+{% set name = "simu-net" %}
+{% set version = "0.0.1" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 3e1cf81ff6572a47565ed65d386c68581bc6c553d247ec884488232ea3ce1dbc
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv "
+
+requirements:
+  host:
+    - discrete-model
+    - matplotlib >=3.0.0
+    - pip
+    - python
+  run:
+    - discrete-model
+    - matplotlib >=3.0.0
+    - python
+
+test:
+  imports:
+    - simu_net
+
+about:
+  home: https://github.com/clement-alexandre/TotemBionet
+  license: WTFPL
+  license_family: OTHER
+  license_file: 
+  summary: Simulation library for TotemBionet
+  doc_url: 
+  dev_url: 
+
+extra:
+  recipe-maintainers:
+    - your-github-id-here

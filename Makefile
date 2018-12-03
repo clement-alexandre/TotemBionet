@@ -18,7 +18,7 @@ stop: ## Stop and delete the container
 remove: ## Remove the image
 	docker rmi $(IMAGE_NAME)
 
-test: test-ggea test-model-picker test-discrete-model ## Execute tests
+test: test-ggea test-model-picker test-discrete-model test-simu-net ## Execute tests
 
 test-ggea:
 	cd ggea; python -m unittest tests.test; cd ..
@@ -28,6 +28,9 @@ test-model-picker:
 
 test-discrete-model:
 	cd discrete-model; python -m unittest tests.test; cd ..
+
+test-simu-net:
+	cd simu-net; python -m unittest tests.test; cd ..
 
 clean: clean-build clean-pyc clean-hooks ## Remove compiled files
 

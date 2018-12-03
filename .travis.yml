@@ -36,4 +36,15 @@ matrix:
         - coverage run tests/test.py
       after_success:
         - codecov
-  
+    - name: "simu-net"
+      language: python
+      python: 3.6
+      before_install:
+        - cd simu-net
+      install:
+        - pip install .
+        - pip install codecov
+      script:
+        - coverage run tests/test.py
+      after_success:
+        - codecov
