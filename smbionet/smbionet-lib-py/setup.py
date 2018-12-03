@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(name="smb-lib",
-    version='0.1.1',
+    version='0.1.2',
     author = "Mohamed Chennouf",
     author_email = "mohamed.chennouf@etu.unice.fr",
     url = "https://github.com/clement-alexandre/TotemBionet",

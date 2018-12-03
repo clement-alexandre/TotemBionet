@@ -1,8 +1,13 @@
 #!/bin/sh
 
+#Get IP for Jupyter in Docker
+chmod 777 getmyIP.py
+python3 getmyIP.py
+
+#Build image smbionet
+
 #PUSH=true
 PUSH=false
-
 
 mvn clean package
 

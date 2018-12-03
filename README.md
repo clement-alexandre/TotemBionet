@@ -179,3 +179,5 @@ Run `make up` and play with your dependency inside the Jupyter Notebook.
 Feel free to add a Jupyter Notebook in the tutorial folder to help the other programmers use your library.
 
 ![model-picker](docs/source/static/model-picker.png)
+
+
