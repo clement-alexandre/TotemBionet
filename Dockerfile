@@ -4,7 +4,7 @@ USER root
 
 RUN conda install --no-update-deps -y \
         -c alexandre-clement \
-        ggea=0.0.3 \
+        ggea=0.0.5 \
         model-picker=0.0.4 \
         discrete-model=0.1.1 \
         simu-net=0.0.1 \

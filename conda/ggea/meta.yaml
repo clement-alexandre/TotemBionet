@@ -1,5 +1,5 @@
 {% set name = "ggea" %}
-{% set version = "0.0.3" %}
+{% set version = "0.0.5" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 662cebc241b75a27445e61bb502f50689ae00ab35c9247badc21a777ac8c0be0
+  sha256: 66dbc1adfc5d4efe1bed41af732cd84939178dfad48e9ec2d562363d0c8c3691
 
 build:
   number: 0
@@ -15,13 +15,17 @@ build:
 
 requirements:
   host:
+    - discrete-model
     - matplotlib >=3.0.0
     - networkx >=2.0
     - pip
+    - pydot
     - python
   run:
+    - discrete-model
     - matplotlib >=3.0.0
     - networkx >=2.0
+    - pydot
     - python
 
 test:
@@ -39,4 +43,4 @@ about:
 
 extra:
   recipe-maintainers:
-    - your-github-id-here
+    - clement-alexandre
