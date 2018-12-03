@@ -41,7 +41,7 @@ class Result:
         t = np.arange(0, len(self.states), 1)
         _, ax = plt.subplots()
         for gene in genes:
-            ax.plot(t, [state[gene] for state in self.states])
+            ax.plot(t, [state[gene] for state in self.states], label=gene.name)
         ax.set(xlabel='step', ylabel='state', title='Simulation')
         ax.grid()
         plt.show()

@@ -7,6 +7,7 @@ import re
 import networkx as nx
 from networkx.drawing.nx_pydot import to_pydot, write_dot
 from discrete_model import DiscreteModel, Gene, InfluenceGraph
+import matplotlib.pyplot as plt
 
 
 class Graph(nx.DiGraph):
@@ -43,3 +44,4 @@ def show(graph: Graph):
     nx.draw_networkx_edges(graph, pos, alpha=0.4,
                            node_size=0, width=1, edge_color='k')
     nx.draw_networkx_labels(graph, pos, fontsize=14)
+    plt.show()
