@@ -1,0 +1,38 @@
+{% set name = "discrete-model" %}
+{% set version = "0.1.0" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 7733e60633b5872104a380d33e4b76553ae853537c899890e69ef765ed373e6f
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv "
+
+requirements:
+  host:
+    - pip
+    - python
+  run:
+    - python
+
+test:
+  imports:
+    - discrete_model
+
+about:
+  home: https://github.com/clement-alexandre/TotemBionet
+  license: WTFPL
+  license_family: OTHER
+  license_file: 
+  summary: Discrete model for TotemBionet
+  doc_url: 
+  dev_url: 
+
+extra:
+  recipe-maintainers:
+    - clement-alexandre

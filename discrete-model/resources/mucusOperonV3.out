@@ -1,0 +1,51 @@
+
+VAR
+
+operon = 0 2 ;
+mucuB = 0 1 ;
+
+REG
+
+free [(!(mucuB>=1))]=> operon ;
+alg [(operon>=1)]=> operon ;
+prod [(operon>=1)]=> mucuB ;
+
+PARA
+
+# Parameters for operon
+
+K_operon = 0 ;
+K_operon+alg = 2 ;
+K_operon+free = 0 2 ;
+K_operon+alg+free = 2 ;
+
+# Parameters for mucuB
+
+K_mucuB = 0 ;
+K_mucuB+prod = 1 ;
+
+CTL
+
+(operon=0)->AG(!(mucuB=1))&(operon=2)->AG(!(mucuB=0))
+
+# MODEL 1
+
+# K_operon = 0
+# K_operon+alg = 2
+# K_operon+free = 0
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# MODEL 2
+
+# K_operon = 0
+# K_operon+alg = 2
+# K_operon+free = 1 2
+# K_operon+alg+free = 2
+
+# K_mucuB = 0
+# K_mucuB+prod = 1
+
+# SELECTED MODELS | CHECKED MODELS = 2 / 2 (58ms)
