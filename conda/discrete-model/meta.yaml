@@ -1,5 +1,5 @@
-{% set name = "ggea" %}
-{% set version = "0.0.5" %}
+{% set name = "discrete-model" %}
+{% set version = "0.1.1" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 66dbc1adfc5d4efe1bed41af732cd84939178dfad48e9ec2d562363d0c8c3691
+  sha256: 289ff62e3fe914f2880cc64a8d1ae8ad52d2dd73ab81714dc662ee7d58eb0340
 
 build:
   number: 0
@@ -15,32 +15,24 @@ build:
 
 requirements:
   host:
-    - discrete-model
-    - matplotlib >=3.0.0
-    - networkx >=2.0
     - pip
-    - pydot
     - python
   run:
-    - discrete-model
-    - matplotlib >=3.0.0
-    - networkx >=2.0
-    - pydot
     - python
 
 test:
   imports:
-    - ggea
+    - discrete_model
 
 about:
   home: https://github.com/clement-alexandre/TotemBionet
   license: WTFPL
   license_family: OTHER
   license_file: 
-  summary: Asynchronous State Graph Generator
+  summary: Discrete model for TotemBionet
   doc_url: 
   dev_url: 
 
 extra:
   recipe-maintainers:
-    - clement-alexandre
+    - your-github-id-here

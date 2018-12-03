@@ -1,0 +1,17 @@
+VAR
+
+G = 0 1 ;
+P = 0 1 ;
+
+REG
+
+day [(G>=1)]=> P ;
+night [(!(P>=1))]=> G ;
+
+# MODEL 1
+
+# K_G = 0
+# K_G+night = 1
+
+# K_P = 0
+# K_P+day = 1

@@ -1,5 +1,5 @@
-{% set name = "ggea" %}
-{% set version = "0.0.5" %}
+{% set name = "simu-net" %}
+{% set version = "0.0.2" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 66dbc1adfc5d4efe1bed41af732cd84939178dfad48e9ec2d562363d0c8c3691
+  sha256: 4bcc2f0e66bd8b50d21f9501e6019375c897954c23279a9648b0812c79a848bb
 
 build:
   number: 0
@@ -17,27 +17,23 @@ requirements:
   host:
     - discrete-model
     - matplotlib >=3.0.0
-    - networkx >=2.0
     - pip
-    - pydot
     - python
   run:
     - discrete-model
     - matplotlib >=3.0.0
-    - networkx >=2.0
-    - pydot
     - python
 
 test:
   imports:
-    - ggea
+    - simu_net
 
 about:
   home: https://github.com/clement-alexandre/TotemBionet
   license: WTFPL
   license_family: OTHER
   license_file: 
-  summary: Asynchronous State Graph Generator
+  summary: Simulation library for TotemBionet
   doc_url: 
   dev_url: 
 
