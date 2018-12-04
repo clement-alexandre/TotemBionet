@@ -59,7 +59,7 @@ class DiscreteModel:
     def __str__(self):
         string = str(self.influence_graph)
         string += '\n\tmodel'
-        for transition in self.list_transitions():
+        for transition in self.transitions:
             string += f'\n\t\t{transition}'
         return string
 

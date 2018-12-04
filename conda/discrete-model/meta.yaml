@@ -1,5 +1,5 @@
 {% set name = "discrete-model" %}
-{% set version = "0.1.5" %}
+{% set version = "0.1.6" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 56980e4f1abec6a79b4ec6590540796ca71cee80de33b771dc90a55b092c9cf0
+  sha256: d3d6782c287c42c58070500c2442be5c4697e5b54d23382598c88b5fb8b050f4
 
 build:
   number: 0
