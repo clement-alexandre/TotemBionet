@@ -6,16 +6,69 @@
 
 - Execute docker-compose up-d : Will lauch the images in a docker container
 
-
 ## Inside of containers
-
 
 - There are 2 containers one for smbionet which contains the Nusmv solver and one for a database which saves the experiences on smbionet
 
-
 ## Run Smbionet in Jupyter
 
-- Put in the constructor smbionet the next IP : localhost
+- Put in the constructor smbionet the next IP : 10.212.112.16
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

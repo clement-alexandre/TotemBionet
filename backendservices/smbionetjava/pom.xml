@@ -11,7 +11,7 @@
 
     <parent>
         <groupId>totembionet</groupId>
-        <artifactId>smbionet</artifactId>
+        <artifactId>backendservices</artifactId>
         <version>1.0</version>
     </parent>
 

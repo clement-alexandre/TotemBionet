@@ -11,7 +11,7 @@ PUSH=false
 
 mvn clean package
 
-cd smbionet
+cd backendservices
 
 build() { # $1: directory, $2: image_name
   cd $1
@@ -24,3 +24,4 @@ build() { # $1: directory, $2: image_name
 echo "Building locals resources"
 
 build smbionetjava  totembionet/smbionet-document
+build save  totembionet/save-document

@@ -2,12 +2,12 @@
 
 from setuptools import setup, find_packages
 
-setup(name="smb-lib",
-    version='0.1.6',
+setup(name="save-experiences",
+    version='0.0.1',
     author = "Mohamed Chennouf",
     author_email = "mohamed.chennouf@etu.unice.fr",
     url = "https://github.com/clement-alexandre/TotemBionet",
-    description = "smbionet librairie python",
+    description = "save librairie python",
     long_description = open("README.rst").read(),
     install_requires = ["requests"],
     license="WTFPL",
@@ -19,5 +19,5 @@ setup(name="smb-lib",
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7'
     ],
-    keywords="jupyter, computational systems biology",
+    keywords="jupyter, save experiences",
 )

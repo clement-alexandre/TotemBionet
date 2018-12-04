@@ -19,6 +19,6 @@
     </properties>
 
     <modules>
-        <module>smbionet</module>
+        <module>backendservices</module>
     </modules>
 </project>
