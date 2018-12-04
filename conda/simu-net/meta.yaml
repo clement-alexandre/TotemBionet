@@ -1,5 +1,5 @@
 {% set name = "simu-net" %}
-{% set version = "0.0.2" %}
+{% set version = "0.0.3" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 4bcc2f0e66bd8b50d21f9501e6019375c897954c23279a9648b0812c79a848bb
+  sha256: 436d3a391f9c57996210d50ddd17dd0138e859c63a6792176495d4582312fd6c
 
 build:
   number: 0

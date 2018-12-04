@@ -2,9 +2,9 @@
 Discrete Model
 ============================================================================
 
-***************************************
+****************************************************
 Implementation of the discrete model for TotemBionet
-***************************************
+****************************************************
 
 .. image:: https://travis-matrix-badges.herokuapp.com/repos/clement-alexandre/TotemBionet/branches/master/3
     :target: https://travis-ci.com/clement-alexandre/TotemBionet

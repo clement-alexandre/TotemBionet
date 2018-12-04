@@ -18,15 +18,16 @@ class Test(unittest.TestCase):
         simulation.steps = 5
         simulation.random.seed(0xff)
         result = simulation.run()
+        G = model1.find_gene_by_name('G')
+        P = model1.find_gene_by_name('P')
         expected = [
-            {'G': 0, 'P': 1},
-            {'G': 0, 'P': 0},
-            {'G': 1, 'P': 0},
-            {'G': 1, 'P': 1},
-            {'G': 0, 'P': 1}
+            {G: 0, P: 1},
+            {G: 0, P: 0},
+            {G: 1, P: 0},
+            {G: 1, P: 1},
+            {G: 0, P: 1}
         ]
-        for e, a in zip(expected, result.states):
-            self.assertEqual(e, {v.name: s for v, s in a.items()})
+        self.assertEqual(expected, result.states)
 
 
 if __name__ == '__main__':

@@ -6,8 +6,8 @@ RUN conda install --no-update-deps -y \
         -c alexandre-clement \
         ggea=0.0.5 \
         model-picker=0.0.4 \
-        discrete-model=0.1.1 \
-        simu-net=0.0.2 \
+        discrete-model=0.1.6 \
+        simu-net=0.0.3 \
         && conda clean -y --all && rm -rf /opt/conda/pkgs
 
 RUN conda install --no-update-deps -y \

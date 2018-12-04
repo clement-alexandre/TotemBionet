@@ -20,7 +20,7 @@ def _list_to_str(lst: Iterable[Any]) -> str:
 
 
 def create_graph(model: DiscreteModel) -> Graph:
-    genes = model.influence_graph.genes
+    genes = model.genes
     states = [gene.states for gene in genes]
     levels = product(*states)
     digraph = nx.DiGraph()

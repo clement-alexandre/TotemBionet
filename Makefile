@@ -4,11 +4,17 @@ CONTAINER_NAME="totembionet"
 help: ## This help.
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-build: ## Build the container
+build: build-backend-services ## Build the container
 	docker build -t $(CONTAINER_NAME) .
+
+build-backend-services:
+	cd backendservices && ./build.sh && cd ..
 
 run: ## Run the container
 	docker run -d --name $(CONTAINER_NAME) -p 8888:8888 $(IMAGE_NAME)
+
+run-backend:
+	cd backendservices && docker-compose up && cd ..
 
 up: build run ## Build and Run the container
 
@@ -32,7 +38,7 @@ test-discrete-model:
 test-simu-net:
 	cd simu-net; python -m unittest tests.test; cd ..
 
-clean: clean-build clean-pyc clean-hooks ## Remove compiled files
+clean: clean-build clean-pyc clean-hooks clean-backend ## Remove compiled files
 
 clean-build:
 	rm -fr **/build/
@@ -49,3 +55,6 @@ clean-pyc:
 
 clean-hooks:
 	find . -name '*.coverage' -exec rm -f {} +
+
+clean-backend:
+	rm -fr backendservices/**/target/
