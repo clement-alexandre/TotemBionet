@@ -2,9 +2,9 @@
 Simu-Net
 ============================================================================
 
-***************************************
+*********************************************
 Simulation library for the TotemBionet models
-***************************************
+*********************************************
 
 .. image:: https://travis-matrix-badges.herokuapp.com/repos/clement-alexandre/TotemBionet/branches/master/4
     :target: https://travis-ci.com/clement-alexandre/TotemBionet
