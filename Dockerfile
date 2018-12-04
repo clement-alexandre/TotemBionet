@@ -10,6 +10,12 @@ RUN conda install --no-update-deps -y \
         simu-net=0.0.3 \
         && conda clean -y --all && rm -rf /opt/conda/pkgs
 
+RUN conda install --no-update-deps -y \
+        -c mohamedchennouf\
+        smb-lib=0.1.6 \
+        save-experiences=0.0.1 \
+        && conda clean -y --all && rm -rf /opt/conda/pkgs
+
 COPY tutorials /notebook/tutorials
 RUN chown -R user:user /notebook
 

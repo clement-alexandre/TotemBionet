@@ -1,0 +1,8 @@
+Copyright 2018 by the contributors
+
+This program is free software. you can redistribute it and/or modify
+Created by Mohamed Chennouf
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.

@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+
+
+  # Services smbionet
+  smb:                      # service smbionet, on port 9080
+    container_name: smb
+    image: totembionet/smbionet-document
+    depends_on:
+      - database1
+    ports:
+      - "9080:8080"
+    links:
+      - database1
+
+
+  database1:                       # MongoDB database smbionet, on port 27017
+    container_name: smbionet-database
+    image: mongo:3.0
+    volumes:
+      - "./db/mongo_data1:/data/db"
+    ports:
+      - "27017:27017"
+
+
+
+  # Services for save
+  save:                      # service save, on port 9080
+    container_name: save
+    image: totembionet/save-document
+    depends_on:
+      - database2
+    ports:
+      - "9090:8080"
+    links:
+      - database2
+
+
+  database2:                       # MongoDB database : orders, on port 27017
+    container_name: save-database
+    image: mongo:3.0
+    volumes:
+      - "./db/mongo_data2:/data/db"
+    ports:
+      - "27018:27017"
