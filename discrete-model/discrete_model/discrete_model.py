@@ -17,6 +17,20 @@ class DiscreteModel:
         self.influence_graph: InfluenceGraph = influence_graph
         self.transitions: List[Transition] = []
 
+    @property
+    def genes(self) -> Tuple[Gene]:
+        return tuple(self.influence_graph.genes)
+    
+    @property
+    def process(self) -> Tuple[Process]:
+        return tuple(self.influence_graph.process)
+
+    def find_gene_by_name(self, gene_name) -> Gene:
+        return self.influence_graph.find_gene_by_name(gene_name)
+    
+    def find_process_by_name(self, process_name) -> Process:
+        return self.influence_graph.find_process_by_name(process_name)
+
     def add_transition(self, gene: str, process: Tuple[str], states: Tuple[int]):
         gene = self.influence_graph.find_gene_by_name(gene)
         process = tuple(self.influence_graph.find_process_by_name(p) for p in process)
@@ -27,9 +41,6 @@ class DiscreteModel:
             if transition.gene == gene and set(transition.process) == set(process):
                 return transition
         raise AttributeError(f'transition "{gene.name} {set(p.name for p in process) or "{}"}" does not exist')
-
-    def list_transitions(self) -> Tuple[Transition]:
-        return tuple(self.transitions)
 
     def available_state(self, gene: Gene, states: Dict[Gene, int]) -> Tuple[int]:
         return tuple(self._available_state(gene, states))

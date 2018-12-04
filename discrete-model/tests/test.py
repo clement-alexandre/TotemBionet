@@ -5,15 +5,15 @@ from discrete_model import parse_smbionet_output_file, InfluenceGraph, DiscreteM
 class Test(unittest.TestCase):
     def test_process_activation(self):
         model1, _ = parse_smbionet_output_file('resources/mucusOperonV3.out')
-        free = model1.influence_graph.find_process_by_name('free')
-        mucuB = model1.influence_graph.find_gene_by_name('mucuB')
+        free = model1.find_process_by_name('free')
+        mucuB = model1.find_gene_by_name('mucuB')
         self.assertTrue(free.is_active({mucuB: 0}))
 
     def test_find_transition(self):
         model1, model2 = parse_smbionet_output_file('resources/mucusOperonV3.out')
-        operon = model1.influence_graph.find_gene_by_name('operon')
-        free = model1.influence_graph.find_process_by_name('free')
-        alg = model1.influence_graph.find_process_by_name('alg')
+        operon = model1.find_gene_by_name('operon')
+        free = model1.find_process_by_name('free')
+        alg = model1.find_process_by_name('alg')
         transition = model1.find_transition(operon, (alg, free))
         self.assertEqual((2,), transition.states)
     
@@ -22,8 +22,8 @@ class Test(unittest.TestCase):
     
     def test_available_states(self):
         _, model2 = parse_smbionet_output_file('resources/mucusOperonV3.out')
-        operon = model2.influence_graph.find_gene_by_name('operon')
-        mucuB = model2.influence_graph.find_gene_by_name('mucuB')
+        operon = model2.find_gene_by_name('operon')
+        mucuB = model2.find_gene_by_name('mucuB')
         self.assertEqual((1,), model2.available_state(operon, {operon: 0, mucuB: 0}))
         self.assertEqual((2,), model2.available_state(operon, {operon: 1, mucuB: 0}))
         self.assertEqual((2,), model2.available_state(operon, {operon: 2, mucuB: 0}))
