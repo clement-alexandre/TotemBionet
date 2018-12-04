@@ -92,7 +92,7 @@ public class Out {
         {
             System.out.println ("Le fichier n'a pas été trouvé");
         }
-        return result;
+        return result.substring(0, result.length() - 5);
     }
 
 
