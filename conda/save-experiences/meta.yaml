@@ -1,0 +1,40 @@
+{% set name = "save-experiences" %}
+{% set version = "0.0.1" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: ad589eb8fa7be969e709f7b5d7c3520e325090ea1d06a3f4423c37b090a29547
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv "
+
+requirements:
+  host:
+    - pip
+    - python
+    - requests
+  run:
+    - python
+    - requests
+
+test:
+  imports:
+    - save_experiences
+
+about:
+  home: https://github.com/clement-alexandre/TotemBionet
+  license: WTFPL
+  license_family: OTHER
+  license_file: 
+  summary: save librairie python
+  doc_url: 
+  dev_url: 
+
+extra:
+  recipe-maintainers:
+    - your-github-id-here
