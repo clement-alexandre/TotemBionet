@@ -28,7 +28,7 @@ CTL
 
 (operon=0)->AG(!(mucuB=1))&(operon=2)->AG(!(mucuB=0))
 
-# IMODEL
+# MODEL 1
 
 # K_operon = 0
 # K_operon+alg = 2
@@ -38,7 +38,7 @@ CTL
 # K_mucuB = 0
 # K_mucuB+prod = 1
 
-# IMODEL
+# MODEL 2
 
 # K_operon = 0
 # K_operon+alg = 2
@@ -48,4 +48,4 @@ CTL
 # K_mucuB = 0
 # K_mucuB+prod = 1
 
-# SELECTED MODELS | CHECKED MODELS = 0 / 2 (124ms)
+# SELECTED MODELS | CHECKED MODELS = 2 / 2 (150ms)

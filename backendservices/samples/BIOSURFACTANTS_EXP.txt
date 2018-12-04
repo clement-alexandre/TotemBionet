@@ -1,0 +1,96 @@
+
+VAR
+
+a = 0 2 ;
+c = 0 1 ;
+r = 0 2 ;
+b = 0 1 ;
+
+ko = 0 1 ;
+trans = 0 1 ;
+
+REG 
+
+a [a>=1] => a ;
+
+a [a>=2] => c ;
+r [r>=1] => c ;
+
+a [a>=1] => r ;
+c [c<1 ] => r ; 
+r [r>=2] => r ;
+
+r [r<1] => b ;
+
+ko [ko=0]=> c ;
+trans [trans=1]=> c ;
+
+ko [ko=1]=> ko ;
+trans [trans=1]=> trans ;
+
+PARA
+
+K_a = 0 ;
+K_a+a = 2 ;
+
+K_b = 0 ;
+K_b+r = 1 ;
+
+K_c+ko = 0 1 ;     # sauvage
+K_c+a+ko = 0 1 ;   # sauvage   
+K_c+ko+r = 0 1 ;   # sauvage
+K_c+a+ko+r = 0 1 ; # sauvage
+
+K_c+trans = 0 ;     # ko
+K_c+r+trans = 0 ;   # ko
+K_c+a+trans = 0 ;   # ko
+K_c+a+r+trans = 0 ; # ko
+
+K_c+ko+trans = 1 ;     # trans
+K_c+a+ko+trans = 1 ;   # trans
+K_c+ko+r+trans = 1 ;   # trans
+K_c+a+ko+r+trans = 1 ; # trans
+
+K_c = 0 ;     # "inutile"   
+K_c+a = 0 ;   # "inutile"   
+K_c+r = 0 ;   # "inutile"   
+K_c+a+r = 0 ; # "inutile"   
+
+K_ko = 0 ;
+K_ko+ko = 1 ;
+
+K_trans = 0 ;
+K_trans+trans = 1 ; 
+
+CTL
+
+# En condition "normal" le niveau de a est élevé (niveau 2) , c est
+# présent et les biosurfactant (b) aussi (42 modèles retenus).
+
+  ((ko=0 & trans=0 & a=2 & c=1 & b=1) -> AF(AG(a=2 & c=1 & b=1)))  
+
+# Une suppression de c entraîne un disparition des biosurfactant
+
+& ((ko=1 & trans=0 & a>=1 & c=0 & b=1) -> AF(AG(b=0))) 
+
+# et si du c est apporté en trans, les biosurfactants restent absents.
+
+& ((ko=0 & trans=1 & a>=1 & c=1 & b=0) -> AF(EF(b=0))) 
+
+# Une disparition de a entraîne une disparition de c et b
+
+& ((ko=0 & trans=0 & a=0) -> AF(AG(c=0 & b=0))) 
+
+# et si a est apporté en trans, c et b réapparaissent 
+
+& ((ko=0 & trans=0 & a=2 & b=0 & c=0) -> AF(AG(c=1 & b=1)))
+
+# En condition "normale" une légère diminution de a entraîne une
+# disparition de b mais pas de c
+
+& ((ko=0 & trans=0 & a=1 & b=1 & c=1) -> AF(EF(c=1 & b=0)))
+
+
+
+
+

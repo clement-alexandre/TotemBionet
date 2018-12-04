@@ -118,10 +118,12 @@ public class NuSMV{
 		//EXECUTION DE NUSMV
 		Process proc;
 		if(dynamics) {
+			System.out.print("mmm");
 			//avec r�ordonnement dynamique des variables
 			proc = Runtime.getRuntime().exec(NUSMVPATH + " -dynamic " + file);
 		}
 		else {
+			System.out.print("OOooooooooo");
 			//sans r�ordonnement dynamique des variables
 			proc = Runtime.getRuntime().exec(NUSMVPATH + " " + file);
 		}
@@ -131,7 +133,7 @@ public class NuSMV{
 		BufferedReader reader=new BufferedReader(inputstreamreader);
 		String line;
 		//On passe les 26 premi�res lignes
-		for(int i=0;i<5;i++)
+		for(int i=0;i<16;i++)
 			reader.readLine();
 		//On enregistre la 27i�me ligne
 		line=reader.readLine();

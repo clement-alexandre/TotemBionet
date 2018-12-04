@@ -30,6 +30,8 @@ public class smbionetAPI {
                     return Response.ok().entity(consult(obj).toString(INDENT_FACTOR)).build();
                 case PURGE:
                     return Response.ok().entity(purge().toString(INDENT_FACTOR)).build();
+                case TEST:
+                    return Response.ok().entity(test(obj).toString(INDENT_FACTOR)).build();
             }
         }catch(Exception e) {
             JSONObject error = new JSONObject().put("error", e.toString());
