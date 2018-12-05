@@ -9,6 +9,41 @@ class Test(unittest.TestCase):
         mucuB = model1.find_gene_by_name('mucuB')
         self.assertTrue(free.is_active({mucuB: 0}))
 
+    def test_resources_table(self):
+        model1, *_ = parse_smbionet_output_file('resources/mucusOperonV4.out')
+        operon = model1.find_gene_by_name('operon')
+        mucuB = model1.find_gene_by_name('mucuB')
+        free = model1.find_process_by_name('free')
+        alg = model1.find_process_by_name('alg')
+        prod = model1.find_process_by_name('prod')
+        rt = model1.influence_graph.resources_table()
+        self.assertEqual({prod}, rt.get_resources({operon: 1, mucuB: 1}))
+        self.assertEqual({alg, free, prod}, rt.get_resources({operon: 2, mucuB: 0}))
+        self.assertEqual({alg}, rt.get_resources_for_gene(operon, {operon: 2, mucuB: 1}))
+        self.assertEqual("""operon | mucuB || active multiplex on operon | active multiplex on mucuB
+------------------------------------------------------------------------
+     0 |     0 || {free}                     | {}                       
+     0 |     1 || {}                         | {}                       
+     1 |     0 || {free}                     | {prod}                   
+     1 |     1 || {}                         | {prod}                   
+     2 |     0 || {free, alg}                | {prod}                   
+     2 |     1 || {alg}                      | {prod}                   
+""", str(rt))
+
+    def test_resources_table_with_model(self):
+        model1, *_ = parse_smbionet_output_file('resources/mucusOperonV4.out')
+        rt = model1.influence_graph.resources_table()
+        rt.model = model1
+        self.assertEqual("""operon | mucuB || active multiplex on operon | active multiplex on mucuB || K_operon | K_mucuB
+----------------------------------------------------------------------------------------------
+     0 |     0 || {free}                     | {}                        || 1        | 0      
+     0 |     1 || {}                         | {}                        || 0        | 0      
+     1 |     0 || {free}                     | {prod}                    || 2        | 1      
+     1 |     1 || {}                         | {prod}                    || 0        | 1      
+     2 |     0 || {free, alg}                | {prod}                    || 2        | 1      
+     2 |     1 || {alg}                      | {prod}                    || 2        | 1      
+""", str(rt))
+
     def test_find_transition(self):
         model1, model2 = parse_smbionet_output_file('resources/mucusOperonV3.out')
         operon = model1.find_gene_by_name('operon')

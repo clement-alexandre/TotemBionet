@@ -2,6 +2,7 @@
 
 from typing import List, Dict, Tuple, Set
 from collections import defaultdict, namedtuple
+from itertools import product
 
 
 class Gene:
@@ -13,7 +14,7 @@ class Gene:
     def add_process(self, process: 'Process'):
         if process not in self.process:
             self.process.append(process)
-    
+
     def active_process(self, state: Dict['Gene', int]) -> Tuple['Process']:
         return tuple(process for process in self.process if process.is_active(state))
 
@@ -21,13 +22,13 @@ class Gene:
         if not isinstance(other, Gene):
             return False
         return self.name == other.name and self.states == other.states
-    
+
     def __hash__(self):
         return hash((self.name, self.states))
 
     def __str__(self):
         return f'{self.name} = {" ".join(map(str, self.states))}'
-    
+
     def __repr__(self):
         return self.name
 
@@ -35,7 +36,7 @@ class Gene:
 class Expression(namedtuple('Expression', 'expression')):
     def evaluate(self, **params: int):
         return eval(self.expression, params)
-    
+
     def __str__(self):
         return self.expression
 
@@ -44,13 +45,60 @@ class Process(namedtuple('Process', 'name genes expression')):
     def __init__(self, name: str, genes: Tuple[Gene], expression: Expression):
         for gene in genes:
             gene.add_process(self)
+        self._is_active = {}
 
     def is_active(self, states: Dict[Gene, int]):
-        params = {gene.name: state for gene, state in states.items()}
-        return self.expression.evaluate(**params)
+        params = {gene.name: state for gene, state in states.items()
+                  if gene.name in self.expression.expression}
+        key = frozenset(params.items())
+        if key not in self._is_active:
+            self._is_active[key] = self.expression.evaluate(**params)
+        return self._is_active[key]
 
     def __str__(self):
-        return f'{self.name} : {self.expression} → {" ".join([gene.name for gene in self.genes])}'
+        return f'{self.name} : {self.expression} → {" ".join(map(repr, self.genes))}'
+
+    def __repr__(self):
+        return self.name
+
+class ResourcesTable:
+    def __init__(self, genes: Tuple[Gene], model: 'DiscreteModel' = None):
+        self.genes: Tuple[Gene] = genes
+        self.table = {}
+        self.model = model
+
+    def add_level(self, state: Dict[Gene, int], resouces: Tuple[Process]):
+        self.table[frozenset(state.items())] = resouces
+
+    def get_resources(self, state: Dict[Gene, int]) -> Set[Process]:
+        return set(self.table[frozenset(state.items())])
+
+    def get_resources_for_gene(self, gene: Gene, states: Dict[Gene, int]) -> Set[Process]:
+        return self.get_resources(states).intersection(gene.process)
+
+    def __str__(self):
+        header = [f"active multiplex on {gene!r}" for gene in self.genes]
+        result = ' | '.join(map(repr, self.genes))
+        result += ' || ' + ' | '.join(header)
+        if self.model:
+            model_header = [f'K_{gene!r}' for gene in self.genes]
+            result += ' || ' + ' | '.join(model_header)
+        result += '\n' + '-' * len(result) + '\n'
+        for state, resources in self.table.items():
+            state = dict(state)
+            columns = [f'{state[gene]:{len(repr(gene))}}' for gene in self.genes]
+            result += ' | '.join(columns) + ' || '
+            columns = []
+            for i, gene in enumerate(self.genes):
+                txt = f'{{{", ".join(repr(p) for p in gene.process if p in resources)}}}'
+                columns.append(f'{txt:{len(header[i])}}')
+            result += ' | '.join(columns)
+            if self.model:
+                result += ' || '
+                txt = [' '.join(map(str, self.model.available_state(gene, state))) for gene in self.genes]
+                result += ' | '.join([f'{t:{len(h)}}' for h, t in zip(model_header, txt)])
+            result += '\n'
+        return result
 
 
 class InfluenceGraph:
@@ -83,6 +131,15 @@ class InfluenceGraph:
 
     def list_process(self) -> Tuple[Process]:
         return tuple(self.process)
+
+    def resources_table(self) -> ResourcesTable:
+        resource_table = ResourcesTable(tuple(self.genes))
+        levels = product(*[gene.states for gene in self.genes])
+        for level in levels:
+            state = {gene: level[i] for i, gene in enumerate(self.genes)}
+            resources = tuple(process for process in self.process if process.is_active(state))
+            resource_table.add_level(state, resources)
+        return resource_table
 
     def __str__(self):
         string = '\nInfluenceGraph\n\tgenes:\n\t\t'

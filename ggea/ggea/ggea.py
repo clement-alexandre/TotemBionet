@@ -27,9 +27,13 @@ def create_graph(model: DiscreteModel) -> Graph:
     for level in levels:
         if level:
             state = {v: level[i] for i, v in enumerate(genes)}
-            next_states = [model.available_state(var, state) for var in genes]
-            for nxt in product(*next_states):
-                digraph.add_edge(_list_to_str(level), _list_to_str(nxt))
+            for i, gene in enumerate(genes):
+                next_states = model.available_state(gene, state)
+                new_states = filter(lambda s: s != level[i], next_states)
+                for nxt in new_states:
+                    next_level = list(level)
+                    next_level[i] = nxt
+                    digraph.add_edge(_list_to_str(level), _list_to_str(next_level))
     return Graph(digraph)
 
 

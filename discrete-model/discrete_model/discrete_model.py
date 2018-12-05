@@ -3,13 +3,16 @@
 from collections import defaultdict, namedtuple
 from typing import List, Tuple, Dict, Union, FrozenSet, Iterable
 
-from .influence_graph import InfluenceGraph, Gene, Process
+from .influence_graph import InfluenceGraph, Gene, Process, ResourcesTable
 
 
 
 class Transition(namedtuple('Transition', 'gene process states')):
     def __str__(self):
-        return f'{self.gene.name} {set(p.name for p in self.process) or "{}"} → {set(self.states) or "{}"}'
+        return f'{self.gene!r} {{{", ".join(map(repr, self.process))}}} → {{{", ".join(map(str, self.states))}}}'
+
+    def __repr__(self):
+        return f'K_{self.gene!r}' + ''.join(f'+{process!r}' for process in self.process)
 
 
 class DiscreteModel:
@@ -55,6 +58,11 @@ class DiscreteModel:
             if next_state not in done:
                 done.add(next_state)
                 yield next_state
+    
+    def resources_table(self) -> ResourcesTable:
+        rt = self.influence_graph.resources_table()
+        rt.model = self
+        return rt
 
     def __str__(self):
         string = str(self.influence_graph)
