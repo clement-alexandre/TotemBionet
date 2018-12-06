@@ -4,6 +4,7 @@ import random
 from typing import Dict, List
 from discrete_model import DiscreteModel, InfluenceGraph, Gene, Transition
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 class Simulation:
