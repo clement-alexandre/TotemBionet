@@ -1,5 +1,6 @@
 import unittest
 from discrete_model import parse_smbionet_output_file, InfluenceGraph, DiscreteModel
+import pandas
 
 
 class Test(unittest.TestCase):
@@ -43,6 +44,20 @@ class Test(unittest.TestCase):
      2 |     0 || {free, alg}                | {prod}                    || 2        | 1      
      2 |     1 || {alg}                      | {prod}                    || 2        | 1      
 """, str(rt))
+
+    def test_resources_table_as_data_frame_with_model(self):
+        model1, *_ = parse_smbionet_output_file('resources/mucusOperonV4.out')
+        rt = model1.resources_table()
+        df = rt.as_data_frame()
+        expected = pandas.DataFrame({
+            'operon': [0, 0, 1, 1, 2, 2],
+            'mucuB': [0, 1, 0, 1, 0, 1],
+            'active multiplex on operon': ['{free}', '{}', '{free}', '{}', '{free, alg}', '{alg}'],
+            'active multiplex on mucuB': ['{}', '{}', '{prod}', '{prod}', '{prod}', '{prod}'],
+            'K_operon': ['1', '0', '2', '0', '2', '2'],
+            'K_mucuB': ['0', '0', '1', '1', '1', '1']
+        })
+        pandas.testing.assert_frame_equal(expected, df)
 
     def test_find_transition(self):
         model1, model2 = parse_smbionet_output_file('resources/mucusOperonV3.out')

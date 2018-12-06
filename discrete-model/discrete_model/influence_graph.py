@@ -3,6 +3,7 @@
 from typing import List, Dict, Tuple, Set
 from collections import defaultdict, namedtuple
 from itertools import product
+import pandas
 
 
 class Gene:
@@ -75,6 +76,24 @@ class ResourcesTable:
 
     def get_resources_for_gene(self, gene: Gene, states: Dict[Gene, int]) -> Set[Process]:
         return self.get_resources(states).intersection(gene.process)
+
+    def as_data_frame(self) -> pandas.DataFrame:
+        header = defaultdict(list)
+        columns = defaultdict(list)
+        for state, resources in self.table.items():
+            state = dict(state)
+            for gene in self.genes:
+                if repr(gene) not in header['genes']:
+                    header['genes'].append(repr(gene))
+                columns[repr(gene)].append(state[gene])
+                if f"active multiplex on {gene!r}" not in header['multiplex']:
+                    header['multiplex'].append(f"active multiplex on {gene!r}")
+                columns[f"active multiplex on {gene!r}"].append(f'{{{", ".join(repr(p) for p in gene.process if p in resources)}}}')
+                if self.model:
+                    if f'K_{gene!r}' not in header['k']:
+                        header['k'].append(f'K_{gene!r}')
+                    columns[f'K_{gene!r}'].append(' '.join(map(str, self.model.available_state(gene, state))))
+        return pandas.DataFrame(columns, columns=header['genes'] + header['multiplex'] + header['k'])
 
     def __str__(self):
         header = [f"active multiplex on {gene!r}" for gene in self.genes]
