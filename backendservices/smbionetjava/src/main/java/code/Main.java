@@ -28,12 +28,14 @@ class Main{
 	    for(int i=0;i<args.length-1;i++)
 		opts.add(args[i]);
 	    //Fichier de sortie
-	    Out.printIn(getOpt("-o",input+".out",opts));
+		System.out.print(input.substring(0,input.length()-4));
+	    Out.printIn(getOpt("-o",input.substring(0,input.length()-4)+".out",opts));
 	    //Niveau d'�criture
 	    Out.setVerb(getOpt("-v",0,opts));
 	    
 	    //CONSTRUCTION DU R�SEAU
 	    Net net=new Net(input);
+	    System.out.print(net);
 	    net.printoo();
 	    if(getOpt("-comp",opts))
 		System.exit(0);
@@ -62,7 +64,7 @@ class Main{
 	    do{
  		nbParas++;
  		//S�lection
- 		if(NuSMV.check(net,input+".smv",dynamic,inversion)){
+ 		if(NuSMV.check(net,input.substring(0,input.length()-4)+".smv",dynamic,inversion)){
 		    //Ecriture du param�trage dans le fichier de sortie
  		    nbGoodParas++;
  		    Out.pf("# MODEL "+nbGoodParas);

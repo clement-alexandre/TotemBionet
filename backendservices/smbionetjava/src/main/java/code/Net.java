@@ -12,6 +12,7 @@ public class Net extends List<Gene>{
 	//CONSTRUCTION DU RESEAU
 
 	public Net(String inputFile)throws Exception{
+
 		//Lecture des g�nes
 		Reader.readVar(inputFile,this);
 		//Lecture des r�gulations
@@ -28,9 +29,6 @@ public class Net extends List<Gene>{
 			get(i).setDag();
 		//Lecture de la formule CTL
 		ctl=Reader.readCTL(inputFile);
-		//System.out.println("-----------momo---------");
-		//System.out.println(ctl);
-		//System.out.println("-----------momo---------");
 	}
 
 	//(1) Pour chaque g�ne, on construit la liste des g�nes qui

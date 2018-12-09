@@ -113,17 +113,18 @@ public class NuSMV{
 	}
 
 	public static boolean check(Net net,String file,boolean dynamics,boolean inversion)throws Exception{
+
 		//�criture du fichier NuSMV
 		writeNet(net,file);
 		//EXECUTION DE NUSMV
 		Process proc;
 		if(dynamics) {
-			System.out.print("mmm");
+
 			//avec r�ordonnement dynamique des variables
 			proc = Runtime.getRuntime().exec(NUSMVPATH + " -dynamic " + file);
 		}
 		else {
-			System.out.print("OOooooooooo");
+
 			//sans r�ordonnement dynamique des variables
 			proc = Runtime.getRuntime().exec(NUSMVPATH + " " + file);
 		}
