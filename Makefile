@@ -11,10 +11,7 @@ build-backend-services:
 	cd backendservices && ./build.sh && cd ..
 
 run: ## Run the container
-	docker run -d --name $(CONTAINER_NAME) -p 8888:8888 $(IMAGE_NAME)
-
-run-backend:
-	cd backendservices && docker-compose up && cd ..
+	docker-compose up -d
 
 up: build run ## Build and Run the container
 
