@@ -24,16 +24,16 @@ remove: ## Remove the image
 test: test-ggea test-model-picker test-discrete-model test-simu-net ## Execute tests
 
 test-ggea:
-	cd ggea; python -m unittest tests.test; cd ..
+	cd totembionet; cd ggea; python -m unittest tests.test; cd ..; cd ..
 
 test-model-picker:
-	cd model-picker; python -m unittest tests.test; cd ..
+	cd totembionet; cd model-picker; python -m unittest tests.test; cd ..; cd ..
 
 test-discrete-model:
-	cd discrete-model; python -m unittest tests.test; cd ..
+	cd totembionet; cd discrete-model; python -m unittest tests.test; cd ..; cd ..
 
 test-simu-net:
-	cd simu-net; python -m unittest tests.test; cd ..
+	cd totembionet; cd simu-net; python -m unittest tests.test; cd ..; cd ..
 
 clean: clean-build clean-pyc clean-hooks clean-backend ## Remove compiled files
 

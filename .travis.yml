@@ -4,7 +4,7 @@ matrix:
       language: python
       python: 3.7-dev
       before_install:
-        - cd ggea
+        - cd totembionet/ggea
       install:
         - pip install .
         - pip install codecov
@@ -16,7 +16,7 @@ matrix:
       language: python
       python: 3.7-dev
       before_install:
-        - cd model-picker
+        - cd totembionet/model-picker
       install:
         - pip install .
         - pip install codecov
@@ -28,7 +28,7 @@ matrix:
       language: python
       python: 3.7-dev
       before_install:
-        - cd discrete-model
+        - cd totembionet/discrete-model
       install:
         - pip install .
         - pip install codecov
@@ -40,7 +40,7 @@ matrix:
       language: python
       python: 3.7-dev
       before_install:
-        - cd simu-net
+        - cd totembionet/simu-net
       install:
         - pip install .
         - pip install codecov
