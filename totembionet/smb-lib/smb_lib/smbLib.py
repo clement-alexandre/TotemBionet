@@ -2,15 +2,16 @@ import requests, json
 
 
 class smbionet:
-    def __init__(self, ip):
-        self.ip = ip
+    def __init__(self,message=None):
+        self.message = message
+
 
     def runSmbionet(self, graph , ctl, allModel):
         input = graph + ctl;
         jsonInput = {"event": "GETVALIDEMODELE", "experience" : {"input": input}}
         if allModel:
             jsonInput = {"event": "GETALLMODELE", "experience" : {"input": input}}
-        requestRunSMB = requests.post('http://'+self.ip+':9080/smbionet-service-document/modeles',json = jsonInput)
+        requestRunSMB = requests.post('http://localhost:9080/smbionet-service-document/modeles',json = jsonInput)
         resultJson = json.loads(requestRunSMB.text)
         output = resultJson["experience"]["output"]
         newFile = "./../resources/result.out";
@@ -25,7 +26,7 @@ class smbionet:
         jsonInput = {"event": "GETVALIDEMODELE", "experience" : {"input": input}}
         if allModel:
             jsonInput = {"event": "GETALLMODELE", "experience" : {"input": input}}
-        requestRunSMB = requests.post('http://'+self.ip+':9080/smbionet-service-document/modeles',json = jsonInput)
+        requestRunSMB = requests.post('http://localhost:9080/smbionet-service-document/modeles',json = jsonInput)
         resultJson = json.loads(requestRunSMB.text)
         output = resultJson["experience"]["output"]
         newFile = path[:-3] + "out";
@@ -41,7 +42,7 @@ class smbionet:
         jsonInput = {"event": "GETVALIDEMODELE", "experience" : {"input": input}}
         if allModel:
             jsonInput = {"event": "GETALLMODELE", "experience" : {"input": input}}
-        requestRunSMB = requests.post('http://'+self.ip+':9080/smbionet-service-document/modeles',json = jsonInput)
+        requestRunSMB = requests.post('http://localhost:9080/smbionet-service-document/modeles',json = jsonInput)
         resultJson = json.loads(requestRunSMB.text)
         output = resultJson["experience"]["output"]
         newFile = pathGraphe[:-3] + "out";
@@ -52,12 +53,9 @@ class smbionet:
 
     def purge(self):
         jsonInput = {"event": "PURGE"}
-        requestRunSMB = requests.post('http://'+self.ip+':9080/smbionet-service-document/modeles',json = jsonInput)
+        requestRunSMB = requests.post('http://localhost:9080/smbionet-service-document/modeles',json = jsonInput)
         return requestRunSMB.text
 
     def consulteExperiences(self):
-        requestConsults = requests.post('http://'+self.ip+':9080/smbionet-service-document/modeles',json = {"event": "CONSULT"})
+        requestConsults = requests.post('http://localhost:9080/smbionet-service-document/modeles',json = {"event": "CONSULT"})
         return requestConsults.text
-
-    def getIp(self):
-        return self.ip
