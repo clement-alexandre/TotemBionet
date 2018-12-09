@@ -5,7 +5,7 @@ help: ## This help.
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 build: build-backend-services ## Build the container
-	docker build -t $(CONTAINER_NAME) .
+	cd totembionet && docker build -t $(CONTAINER_NAME) .
 
 build-backend-services:
 	cd backendservices && ./build.sh && cd ..

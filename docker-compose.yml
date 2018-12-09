@@ -44,3 +44,10 @@ services:
       - "./db/mongo_data2:/data/db"
     ports:
       - "27018:27017"
+
+
+  totembionet:
+    container_name: totembionet
+    image: totembionet
+    ports:
+      - "8888:8888"
