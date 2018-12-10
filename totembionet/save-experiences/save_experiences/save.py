@@ -1,5 +1,4 @@
-import pickle
-import os
+
 import datetime
 from pymongo import MongoClient
 
@@ -28,6 +27,13 @@ class save:
     def getExperience(self,id):
         exp = list(self.test.find({"_id" : id}))
         print(exp)
+
+    def getAllExperiences(self):
+        i = 0
+        arrayExperiences = list(self.test.find())
+        while i < len(arrayExperiences):
+            print(arrayExperiences[i]['_id'])
+            i += 1
 
 
     def saveFileExperience(self,pathExp,id):
