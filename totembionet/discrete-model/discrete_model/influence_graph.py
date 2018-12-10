@@ -3,7 +3,9 @@
 from typing import List, Dict, Tuple, Set, Any
 from collections import defaultdict, namedtuple
 from itertools import product
+import html
 
+import graphviz
 
 from .gene import Gene
 from .multiplex import Multiplex
@@ -82,6 +84,14 @@ class InfluenceGraph:
         {operon: 2, mucuB: 0}
         """
         return State({gene: state[i] for i, gene in enumerate(self.genes)})
+
+    def show(self, engine="fdp") -> 'InfluenceGraphDisplayer':
+        """ 
+        Display the graph using one of the graphviz engine.
+        Available engines: 'dot', 'twopi', 'fdp', 'patchwork',
+                           'neato', 'osage', 'circo', 'sfdp'.
+        """
+        return InfluenceGraphDisplayer(self, engine)
     
     def __str__(self) -> str:
         string = '\nInfluenceGraph\n\tgenes:\n\t\t'
@@ -93,8 +103,39 @@ class InfluenceGraph:
     def __repr__(self) -> str:
         return f'InfluenceGraph(genes={self.genes}, multiplexes={self.multiplexes})'
 
+    def _repr_svg_(self) -> str:
+        """ Display the graph as html in the notebook. """
+        return self.show()._repr_svg_()
+
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InfluenceGraph):
             return False
         return (set(self.genes) == set(other.genes)
                 and set(self.multiplexes) == set(other.multiplexes))
+
+    def __hash__(self) -> int:
+        return hash((frozenset(self.genes), frozenset(self.multiplexes)))
+
+
+class InfluenceGraphDisplayer:
+    def __init__(self, influence_graph: InfluenceGraph, engine: str):
+        self.influence_graph = influence_graph
+        self.engine = engine
+        self.digraph = graphviz.Digraph(engine=engine)
+        for gene in influence_graph.genes:
+            self.digraph.node(gene.name)
+        for multiplex in influence_graph.multiplexes:
+            self.digraph.node(multiplex.name, self._multiplex_to_html(multiplex), shape="plaintext")
+            for gene in multiplex.genes:
+                self.digraph.edge(multiplex.name, gene.name)
+            for gene in multiplex.expression.variables:
+                self.digraph.edge(gene, multiplex.name)
+    
+    def _multiplex_to_html(self, multiplex: Multiplex) -> str:
+        return f'''<<table border="0" cellborder="1" cellspacing="0">
+            <tr><td><font color="blue">{multiplex.name}</font></td></tr>
+            <tr><td>{html.escape(multiplex.expression.expression)}</td></tr></table>>'''
+
+    def _repr_svg_(self) -> str:
+        """ Display the graph as html in the notebook. """
+        return self.digraph._repr_svg_()

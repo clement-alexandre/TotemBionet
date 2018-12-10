@@ -35,7 +35,7 @@ test-discrete-model:
 test-simu-net:
 	cd totembionet; cd simu-net; python -m unittest tests.test; cd ..; cd ..
 
-clean: clean-build clean-pyc clean-hooks clean-backend ## Remove compiled files
+clean: clean-build clean-pyc clean-hooks clean-backend clean-gv ## Remove compiled files
 
 clean-build:
 	rm -fr **/build/
@@ -55,3 +55,7 @@ clean-hooks:
 
 clean-backend:
 	rm -fr backendservices/**/target/
+
+clean-gv:
+	find . -name '*.gv' -exec rm -f {} +
+	find . -name '*.gv.*' -exec rm -f {} +
