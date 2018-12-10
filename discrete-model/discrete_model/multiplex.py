@@ -20,12 +20,14 @@ class Multiplex:
 
     def is_active(self, state: 'State') -> bool:
         """ Return True if the multiplex is active in the given state, false otherwise. """
+        # Remove the genes which does not contribute to the multiplex
+        sub_state = state.sub_state_by_gene_name(*self.expression.variables)
         # If this state is not in the cache
-        if state not in self._is_active:
-            params = self._transform_state_to_dict(state)
+        if sub_state not in self._is_active:
+            params = self._transform_state_to_dict(sub_state)
             # We add the result of the expression for this state of the multiplex to the cache
-            self._is_active[state] = self.expression.evaluate(**params)
-        return self._is_active[state]
+            self._is_active[sub_state] = self.expression.evaluate(**params)
+        return self._is_active[sub_state]
 
     def _transform_state_to_dict(self, state: 'State') -> Dict[str, int]:
         return {gene.name: state for gene, state in state.items()

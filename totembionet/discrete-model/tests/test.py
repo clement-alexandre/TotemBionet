@@ -4,7 +4,9 @@ import unittest
 
 import pandas
 
-from discrete_model import *
+from discrete_model import (Gene, Multiplex, InfluenceGraph, DiscreteModel, 
+                            Expression, State, Transition, parse_smbionet_output_file,
+                            ResourceTable, ResourceTableWithModel)
 
 
 class Test(unittest.TestCase):

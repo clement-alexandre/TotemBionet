@@ -38,6 +38,21 @@ class State(collections.UserDict):
     def __len__(self) -> int:
         return len(self.data)
 
+    def sub_state_by_gene_name(self, *gene_names: str) -> 'State':
+        """
+        Create a sub state with only the gene passed in arguments.
+
+        Example
+        -------
+
+        >>> state.sub_state_by_gene_name('operon')
+        {operon: 2}
+        >>> state.sub_state_by_gene_name('mucuB')
+        {mucuB: 0}
+        
+        """
+        return State({gene: state for gene, state in self.items() if gene.name in gene_names})
+
     def __str__(self) -> str:
         return str(self.data)
     
