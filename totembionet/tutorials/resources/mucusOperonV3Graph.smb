@@ -1,0 +1,20 @@
+# exemple mucus graphe figure 6
+# haut page 21 : pas d'information sur les paramètres mais formule CTL
+
+VAR
+operon = 0 2;
+mucuB = 0 1;
+
+REG
+prod [(operon>=1)] => mucuB;
+free [!(mucuB>=1)] => operon;
+alg [(operon>=1)] => operon;
+
+PARA
+K_operon = 0 ;
+K_operon+alg = 2 ;
+# K_operon+free = 2 ;
+K_operon+alg+free = 2 ;
+K_mucuB = 0 ;
+K_mucuB+prod = 1 ;
+

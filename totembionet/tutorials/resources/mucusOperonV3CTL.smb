@@ -1,0 +1,2 @@
+CTL
+(operon=0)->AG(!(mucuB=1)) & (operon=2)->AG(!(mucuB=0))
