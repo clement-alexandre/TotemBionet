@@ -9,7 +9,7 @@ from .multiplex import Multiplex
 class Transition:
     def __init__(self, gene: Gene, multiplexes: Tuple[Multiplex, ...], states: Tuple[int, ...]):
         self.gene: Gene = gene
-        self.multiplexes: Multiplex = multiplexes
+        self.multiplexes: Tuple[Multiplex, ...] = multiplexes
         self.states: Tuple[int, ...] = states
 
     def __str__(self) -> str:

@@ -13,9 +13,9 @@ from .state import State
 
 
 class InfluenceGraph:
-    def __init__(self):
-        self.genes: List[Gene] = []
-        self.multiplexes: List[Multiplex] = []
+    def __init__(self, genes: Tuple[Gene, ...] = (), multiplexes: Tuple[Multiplex, ...] = ()):
+        self.genes: List[Gene] = list(genes)
+        self.multiplexes: List[Multiplex] = list(multiplexes)
 
     def add_gene(self, gene: Gene) -> None:
         """ Add a gene to the influence graph. """

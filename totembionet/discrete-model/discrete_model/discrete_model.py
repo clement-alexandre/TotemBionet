@@ -11,9 +11,9 @@ from .transition import Transition
 
 
 class DiscreteModel:
-    def __init__(self, influence_graph: InfluenceGraph):
+    def __init__(self, influence_graph: InfluenceGraph, transitions: Tuple[Transition, ...] = ()):
         self.influence_graph: InfluenceGraph = influence_graph
-        self.transitions: List[Transition] = []
+        self.transitions: List[Transition] = list(transitions)
 
     @property
     def genes(self) -> Tuple[Gene, ...]:

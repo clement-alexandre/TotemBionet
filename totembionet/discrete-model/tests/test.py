@@ -6,7 +6,8 @@ import pandas
 
 from discrete_model import (Gene, Multiplex, InfluenceGraph, DiscreteModel, 
                             Expression, State, Transition, parse_smbionet_output_file,
-                            ResourceTable, ResourceTableWithModel)
+                            ResourceTable, ResourceTableWithModel, export_model_to_json,
+                            parse_json_model)
 
 
 class Test(unittest.TestCase):
@@ -102,6 +103,11 @@ class Test(unittest.TestCase):
 
         self.assertEqual(expected_model1, model1)
         self.assertEqual(expected_model2, model2)
+    
+    def test_export_model(self):
+        model, *_ = parse_smbionet_output_file('resources/mucusOperonV4.out')
+        json = export_model_to_json(model)
+        self.assertEqual(model, parse_json_model(json))
 
 
 if __name__ == '__main__':
