@@ -2,7 +2,7 @@
 
 import random
 from typing import Dict, List
-from discrete_model import DiscreteModel, InfluenceGraph, Gene, Transition
+from discrete_model import DiscreteModel, InfluenceGraph, Gene, Transition, State
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -20,26 +20,21 @@ class Simulation:
             states.append(self._next_step(states[-1]))
         return Result(self, states)
 
-    def _initial_state(self):
+    def _initial_state(self) -> State:
         if self.initial_state:
-            return {self.model.find_gene_by_name(gene): state
-                    for gene, state in self.initial_state.items()}
-        return {gene: self.random.choice(gene.states) for gene in self.model.genes}
+            return State({self.model.find_gene_by_name(gene): state
+                          for gene, state in self.initial_state.items()})
+        return State({gene: self.random.choice(gene.states) for gene in self.model.genes})
 
-    def _next_step(self, states: Dict[Gene, int]):
-        pool = []
-        for gene in self.model.genes:
-            nxt_states = self.model.available_state(gene, states)
-            pool.extend((gene, state) for state in nxt_states if state != states[gene])
-        if not pool:
-            return states
-        modified_gene, new_state = self.random.choice(pool)
-        return {gene: state if gene != modified_gene else new_state
-                for gene, state in states.items()}
+    def _next_step(self, state: State):
+        next_states = self.model.available_state(state)
+        if next_states:
+            return random.choice(next_states)
+        return state
 
 
 class Result:
-    def __init__(self, simulation: Simulation, states: List[Dict[Gene, int]]):
+    def __init__(self, simulation: Simulation, states: List[State]):
         self.simulation = simulation
         self.states = states
 
