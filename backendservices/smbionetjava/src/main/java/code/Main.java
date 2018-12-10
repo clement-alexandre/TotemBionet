@@ -32,9 +32,6 @@ class Main{
 	    Out.printIn(getOpt("-o",input.substring(0,input.length()-4)+".out",opts));
 	    //Niveau d'�criture
 	    Out.setVerb(getOpt("-v",0,opts));
-		System.out.println("oooooo");
-	    System.out.println(opts);
-		System.out.println("oooooo");
 	    
 	    //CONSTRUCTION DU R�SEAU
 	    Net net=new Net(input);
