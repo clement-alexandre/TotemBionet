@@ -16,7 +16,7 @@ class smbionet:
         self.modeles = []
 
     def runSmbionet(self,path):
-        os.system('java -cp ./requierements/smbionetjava.jar code.Main '+path)
+        os.system('java -cp /notebook/tutorials/requierements/smbionetjava.jar code.Main '+path)
         lookup = 'MODEL'
         lookupTwo = 'IMODEL'
         find = False
@@ -51,16 +51,17 @@ class smbionet:
         fileGraphe = open(pathGraphe, "r")
         fileCTL = open(pathCTL, "r")
         inp = fileGraphe.read() +"\n\n"+ fileCTL.read()
-        file = open("resources/result.smb","w")
+        path = pathGraphe[:-4]+"concat.smb"
+        file = open(path,"w")
         file.write(inp)
         file.close()
-        os.system('java -cp ./requierements/smbionetjava.jar code.Main resources/result.smb')
+        os.system('java -cp /notebook/tutorials/requierements/smbionetjava.jar code.Main '+path)
         lookup = 'MODEL'
         lookupTwo = 'IMODEL'
         find = False
         checked = 0
         totalchecked = 0
-        with open("resources/result.out") as myFile:
+        with open(path[:-4]+".out") as myFile:
             lines = myFile.readlines()
             for line in lines[:-1]:
                 if lookup in line:
@@ -73,5 +74,5 @@ class smbionet:
                 if(find):
                     print(line,end='')
             print("checkedModeles/totalModeles = "+str(checked)+"/"+str(totalchecked))
-        os.remove("resources/result.smb")
+        os.remove(path)
 

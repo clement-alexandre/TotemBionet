@@ -43,7 +43,7 @@ class save:
             {"_id" : id},
             {"$push" : {
                 "experiences" : {
-                    "$each": [{"value" : value, "date": str(datetime.datetime.now())}],
+                    "$each": [{"value" : value, "date": str(datetime.datetime.now()), "path":pathExp}],
                     "$sort" : {"date" : -1},
                     "$slice" : 5
                 }
@@ -55,7 +55,7 @@ class save:
     def downloadExperience(self,id):
         exp = list(self.test.find({"_id" : id}))
         values = exp[0]['experiences'][0]['value']
-        file = open("./resources/"+id+".out","w")
+        file = open(id+".out","w")
         file.write(values)
         file.close()
 
