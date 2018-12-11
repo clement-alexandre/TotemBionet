@@ -21,7 +21,7 @@ stop: ## Stop and delete the container
 remove: ## Remove the image
 	docker rmi $(IMAGE_NAME)
 
-test: install-model test-ggea test-model-picker test-discrete-model test-simu-net ## Execute tests
+test: install-model test-ggea test-model-picker test-discrete-model test-simu-net test-smb ## Execute tests
 
 install-model:
 	pip install -e totembionet/discrete-model
@@ -37,6 +37,9 @@ test-discrete-model:
 
 test-simu-net:
 	cd totembionet; cd simu-net; python -m unittest tests.test; cd ..; cd ..
+
+test-smb:
+	createjar; cd totembionet; cd smb-lib; python -m unittest tests.test; cd ..; cd ..
 
 clean: clean-build clean-pyc clean-hooks clean-backend clean-gv ## Remove compiled files
 
@@ -62,3 +65,10 @@ clean-backend:
 clean-gv:
 	find . -name '*.gv' -exec rm -f {} +
 	find . -name '*.gv.*' -exec rm -f {} +
+
+createjar:
+	sudo mkdir -p /notebook/tutorials/requierements
+	sudo cp ./totembionet/tutorials/requierements/smbionetjava.jar /notebook/tutorials/requierements/
+
+deletejar:
+	sudo rm -rf /notebook
