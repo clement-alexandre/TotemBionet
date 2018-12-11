@@ -11,5 +11,10 @@ class Test(unittest.TestCase):
         self.assertTrue(os.path.exists("./../tutorials/resources/mucusOperonV1.smv"))
         self.assertTrue(os.path.exists("./../tutorials/resources/mucusOperonV1.out"))
 
+    def test_verify_modeles(self):
+        smb = smb_lib.smbionet()
+        smb.runSmbionet("./../tutorials/resources/mucusOperonV1.smb")
+        self.assertEqual(len(smb.getModeles()),42)
+
 if __name__ == '__main__':
     unittest.main()

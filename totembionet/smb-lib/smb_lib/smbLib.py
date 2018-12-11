@@ -16,26 +16,36 @@ class smbionet:
         self.modeles = []
 
     def runSmbionet(self,path):
-        os.system('java -cp /notebook/tutorials/requierements/smbionetjava.jar code.Main '+path)
+        if os.path.exists("/notebook/tutorials/requierements/smbionetjava.jar"):
+            os.system('java -cp /notebook/tutorials/requierements/smbionetjava.jar code.Main '+path)
+        else:
+            print("le fichier smbionetjava n'exite pas")
         lookup = 'MODEL'
         lookupTwo = 'IMODEL'
         find = False
         checked = 0
         totalchecked = 0
+        value = ""
         with open(path[:-4]+".out") as myFile:
             lines = myFile.readlines()
             for line in lines[:-1]:
                 if lookup in line:
                     checked += 1
                     totalchecked += 1
-                    self.modeles.append(modele(checked,line))
                     find = True
                 if lookupTwo in line:
                     totalchecked += 1
                     find = False
                 if(find):
                     print(line,end='')
+                    if (lookup in line) == False:
+                        value += line
+                    else:
+                        if(checked > 1):
+                            self.modeles.append({"id":checked -1,"value":value})
+                            value =""
         print("checkedModeles/totalModeles = "+str(checked)+"/"+str(totalchecked))
+        self.modeles.append({"id":checked,"value":value})
 
 
     def getModeles(self):
