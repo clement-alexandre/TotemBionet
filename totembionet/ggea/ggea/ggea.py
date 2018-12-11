@@ -52,10 +52,15 @@ class Graph:
 
     def _repr_svg_(self) -> str:
         """ Display the graph as html in the notebook. """
-        digraph = graphviz.Digraph()
-        for tail, head in self._graph.edges:
-            digraph.edge(tail, head)
-        return digraph._repr_svg_()
+        return self.show()._repr_svg_()
+
+    def show(self, engine: str = "dot") -> 'GraphDisplayer':
+        """ 
+        Display the graph using one of the graphviz engine.
+        Available engines: 'dot', 'twopi', 'fdp', 'patchwork',
+                           'neato', 'osage', 'circo', 'sfdp'.
+        """
+        return GraphDisplayer(self, engine)    
     
     def as_dot(self) -> str:
         """ Return as a string the dot version of the graph. """
@@ -73,3 +78,14 @@ class Graph:
     def number_of_transitions(self) -> int:
         """ Return the numbers of transitions in the graph """
         return self._number_of_transitions
+
+
+class GraphDisplayer:
+    def __init__(self, graph: Graph, engine: str):
+        self.graph = graph
+        self.digraph = graphviz.Digraph(engine=engine)
+        for tail, head in self.graph._graph.edges:
+            self.digraph.edge(tail, head)
+    
+    def _repr_svg_(self) -> str:
+        return self.digraph._repr_svg_()

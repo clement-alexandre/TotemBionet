@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# coding: utf8
 
 import random
 from typing import Dict, List
@@ -12,24 +12,23 @@ class Simulation:
         self.model = model
         self.random = random.Random()
         self.steps = 100
-        self.initial_state = None
+        self.initial_state = {gene.name: self.random.choice(gene.states) 
+                              for gene in self.model.genes}
 
     def run(self) -> 'Result':
-        states = [self._initial_state()]
+        states = [self._convert_initial_state_to_state()]
         for _ in range(self.steps-1):
             states.append(self._next_step(states[-1]))
         return Result(self, states)
 
-    def _initial_state(self) -> State:
-        if self.initial_state:
-            return State({self.model.find_gene_by_name(gene): state
-                          for gene, state in self.initial_state.items()})
-        return State({gene: self.random.choice(gene.states) for gene in self.model.genes})
+    def _convert_initial_state_to_state(self) -> State:
+        return State({self.model.find_gene_by_name(gene): state
+                      for gene, state in self.initial_state.items()})
 
     def _next_step(self, state: State):
         next_states = self.model.available_state(state)
         if next_states:
-            return random.choice(next_states)
+            return self.random.choice(next_states)
         return state
 
 

@@ -17,6 +17,7 @@ class Test(unittest.TestCase):
         simulation = Simulation(model1)
         simulation.steps = 5
         simulation.random.seed(0xff)
+        simulation.initial_state = {'G': 0, 'P': 1}
         result = simulation.run()
         G = model1.find_gene_by_name('G')
         P = model1.find_gene_by_name('P')

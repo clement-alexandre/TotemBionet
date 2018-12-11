@@ -24,7 +24,7 @@ def parse_smbionet_output_string(string: str) -> Tuple[DiscreteModel, ...]:
     return tuple(_parse_models(match['models'], graph))
 
 
-def _create_pattern() -> re.Pattern:
+def _create_pattern():
     read_genes = r'\s*VAR(?P<genes>(?:.|\s)*?)'
     read_multiplex = r'REG(?P<multiplex>(?:.|\s)*?)'
     read_parameters = r'(?:PARA(?P<parameters>(?:.|\s)*?))?'
