@@ -42,10 +42,11 @@ class smbionet:
                         value += line
                     else:
                         if(checked > 1):
-                            self.modeles.append({"id":checked -1,"value":value})
+
+                            self.modeles.append({"id":checked -1,"value":value.replace('\n', ' ')})
                             value =""
         print("checkedModeles/totalModeles = "+str(checked)+"/"+str(totalchecked))
-        self.modeles.append({"id":checked,"value":value})
+        self.modeles.append({"id":checked,"value":value.replace('\n', ' ')})
 
 
     def getModeles(self):
