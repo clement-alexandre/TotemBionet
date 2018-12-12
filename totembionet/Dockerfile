@@ -1,32 +1,42 @@
-FROM colomoto/colomoto-docker-base:v1.3.1
+FROM jupyter/base-notebook
 
 USER root
 
-RUN conda install python=3.7
+ENV ROOT=/notebook
 
-RUN pip install pymongo
+RUN mkdir $ROOT && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        graphviz \
+        openjdk-8-jre && \
+    pip install --no-cache-dir \
+                pandas \
+                graphviz \
+                networkx \
+                pydot \
+                numpy \
+                matplotlib \
+                pymongo && \
+    apt clean -y && \
+    rm -rf /var/lib/apt/lists/*
 
-COPY smb-lib smb-lib
-RUN pip install -e smb-lib
+WORKDIR $ROOT
 
-COPY save-experiences save-experiences
-RUN pip install -e save-experiences
+COPY tutorials/requierements $ROOT/tutorials/requierements/
+RUN tar xvfz $ROOT/tutorials/requierements/NuSMV-2.6.0-linux64.tar.gz -C $ROOT/tutorials/requierements/ && \
+    rm $ROOT/tutorials/requierements//NuSMV-2.6.0-linux64.tar.gz && \
+    ln -s $ROOT/tutorials/requierements/NuSMV-2.6.0-Linux/bin/NuSMV /usr/bin/
 
-COPY discrete-model discrete-model
-RUN pip install -e discrete-model
+COPY . .
+RUN pip install --no-cache-dir \
+        -e smb-lib \
+        -e save-experiences \
+        -e discrete-model \
+        -e model-picker \
+        -e ggea \
+        -e simu-net && \
+    chown -R $NB_UID:$NB_UID $ROOT
 
-COPY model-picker model-picker
-RUN pip install -e model-picker
+USER $NB_UID
 
-COPY ggea ggea
-RUN pip install -e ggea
-
-COPY simu-net simu-net
-RUN pip install -e simu-net
-
-COPY tutorials /notebook/tutorials
-RUN chown -R user:user /notebook
-
-RUN tar xvfz /notebook/tutorials/requierements/NuSMV-2.6.0-linux64.tar.gz -C /notebook/tutorials/requierements && ln -s /notebook/tutorials/requierements/NuSMV-2.6.0-Linux/bin/NuSMV /usr/bin/
-
-USER user
+CMD ["start-notebook.sh", "--NotebookApp.token="]
