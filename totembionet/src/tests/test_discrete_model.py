@@ -9,16 +9,18 @@ from discrete_model import (Gene, Multiplex, InfluenceGraph, DiscreteModel,
                             ResourceTable, ResourceTableWithModel, export_model_to_json,
                             parse_json_model)
 
+from .resources import mucus_operon_v3_out, mucus_operon_v4_out
+
 
 class Test(unittest.TestCase):
     def test_process_activation(self):
-        model1, _ = parse_smbionet_output_file('resources/mucusOperonV3.out')
+        model1, _ = parse_smbionet_output_file(mucus_operon_v3_out)
         free = model1.find_multiplex_by_name('free')
         mucuB = model1.find_gene_by_name('mucuB')
         self.assertTrue(free.is_active(State({mucuB: 0})))
 
     def test_resources_table_as_data_frame(self):
-        model1, *_ = parse_smbionet_output_file('resources/mucusOperonV4.out')
+        model1, *_ = parse_smbionet_output_file(mucus_operon_v4_out)
         rt = ResourceTable(model1.influence_graph)
         df = rt.as_data_frame()
         expected = pandas.DataFrame({
@@ -30,7 +32,7 @@ class Test(unittest.TestCase):
         pandas.testing.assert_frame_equal(expected, df)
 
     def test_resources_table_as_data_frame_with_model(self):
-        model1, *_ = parse_smbionet_output_file('resources/mucusOperonV4.out')
+        model1, *_ = parse_smbionet_output_file(mucus_operon_v4_out)
         rt = ResourceTableWithModel(model1)
         df = rt.as_data_frame()
         expected = pandas.DataFrame({
@@ -44,7 +46,7 @@ class Test(unittest.TestCase):
         pandas.testing.assert_frame_equal(expected, df)
 
     def test_find_transition(self):
-        model1, model2 = parse_smbionet_output_file('resources/mucusOperonV3.out')
+        model1, model2 = parse_smbionet_output_file(mucus_operon_v3_out)
         operon = model1.find_gene_by_name('operon')
         free = model1.find_multiplex_by_name('free')
         alg = model1.find_multiplex_by_name('alg')
@@ -55,7 +57,7 @@ class Test(unittest.TestCase):
         self.assertEqual((1, 2), transition.states)
     
     def test_available_states(self):
-        _, model2 = parse_smbionet_output_file('resources/mucusOperonV3.out')
+        _, model2 = parse_smbionet_output_file(mucus_operon_v3_out)
         operon = model2.find_gene_by_name('operon')
         mucuB = model2.find_gene_by_name('mucuB')
         self.assertEqual((State({operon: 1, mucuB: 0}),), model2.available_state_for_gene(operon, State({operon: 0, mucuB: 0})))
@@ -63,7 +65,7 @@ class Test(unittest.TestCase):
         self.assertEqual((State({operon: 2, mucuB: 0}),), model2.available_state_for_gene(operon, State({operon: 2, mucuB: 0})))
 
     def test_cycling_states(self):
-        model, *_ = parse_smbionet_output_file('resources/mucusOperonV4.out')
+        model, *_ = parse_smbionet_output_file(mucus_operon_v4_out)
         operon = model.find_gene_by_name('operon')
         mucuB = model.find_gene_by_name('mucuB')
         self.assertEqual((State({operon: 1, mucuB: 0}),), model.available_state(State({operon: 0, mucuB: 0})))
@@ -72,7 +74,7 @@ class Test(unittest.TestCase):
         self.assertEqual((State({operon: 0, mucuB: 0}),), model.available_state(State({operon: 0, mucuB: 1})))
 
     def test_mucus_operon_v3(self):
-        model1, model2 = parse_smbionet_output_file('resources/mucusOperonV3.out')
+        model1, model2 = parse_smbionet_output_file(mucus_operon_v3_out)
         graph = InfluenceGraph()
         operon = Gene('operon', (0, 1, 2))
         graph.add_gene(operon)
@@ -105,7 +107,7 @@ class Test(unittest.TestCase):
         self.assertEqual(expected_model2, model2)
     
     def test_export_model(self):
-        model, *_ = parse_smbionet_output_file('resources/mucusOperonV4.out')
+        model, *_ = parse_smbionet_output_file(mucus_operon_v4_out)
         json = export_model_to_json(model)
         self.assertEqual(model, parse_json_model(json))
 

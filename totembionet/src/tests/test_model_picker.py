@@ -1,7 +1,6 @@
-# -*- coding: utf8 -*-
+# coding: utf-8
 
 import unittest
-import os
 
 from model_picker import pick_a_model_randomly, ModelPickerException
 

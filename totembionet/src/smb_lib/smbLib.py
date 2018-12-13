@@ -1,5 +1,6 @@
 import os
 
+
 class modele:
     def __init__(self, id, formule):
         self.id = id
@@ -16,10 +17,7 @@ class smbionet:
         self.modeles = []
 
     def runSmbionet(self,path):
-        if os.path.exists("/notebook/tutorials/requierements/smbionetjava.jar"):
-            os.system('java -cp /notebook/tutorials/requierements/smbionetjava.jar code.Main '+path)
-        else:
-            print("le fichier smbionetjava n'exite pas")
+        os.system('java -cp /notebook/requierements/smbionet.jar code.Main ' + path)
         lookup = 'MODEL'
         lookupTwo = 'IMODEL'
         find = False
@@ -66,7 +64,7 @@ class smbionet:
         file = open(path,"w")
         file.write(inp)
         file.close()
-        os.system('java -cp /notebook/tutorials/requierements/smbionetjava.jar code.Main '+path)
+        os.system('java -cp /notebook/requierements/smbionet.jar code.Main ' + path)
         lookup = 'MODEL'
         lookupTwo = 'IMODEL'
         find = False

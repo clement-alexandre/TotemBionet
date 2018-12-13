@@ -1,52 +1,10 @@
-matrix:
-  include:
-    - name: "ggea"
-      language: python
-      python: 3.7-dev
-      before_install:
-        - pip install -e totembionet/discrete-model
-        - cd totembionet/ggea
-      install:
-        - pip install .
-        - pip install codecov
-      script:
-        - coverage run tests/test.py
-      after_success:
-        - codecov
-    - name: "model-picker"
-      language: python
-      python: 3.7-dev
-      before_install:
-        - cd totembionet/model-picker
-      install:
-        - pip install .
-        - pip install codecov
-      script:
-        - coverage run tests/test.py
-      after_success:
-        - codecov
-    - name: "dicrete-model"
-      language: python
-      python: 3.7-dev
-      before_install:
-        - cd totembionet/discrete-model
-      install:
-        - pip install .
-        - pip install codecov
-      script:
-        - coverage run tests/test.py
-      after_success:
-        - codecov
-    - name: "simu-net"
-      language: python
-      python: 3.7-dev
-      before_install:
-        - pip install -e totembionet/discrete-model
-        - cd totembionet/simu-net
-      install:
-        - pip install .
-        - pip install codecov
-      script:
-        - coverage run tests/test.py
-      after_success:
-        - codecov
+language: python
+python:
+  - "3.7-dev"
+install:
+  - pip install codecov
+  - pip install -r totembionet/src/requierements.txt
+script:
+  - coverage run -m unittest discover -s totembionet/src
+after_success:
+  - codecov

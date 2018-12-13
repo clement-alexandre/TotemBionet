@@ -4,11 +4,8 @@ CONTAINER_NAME="totembionet"
 help: ## This help.
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-build: ## build-backend-services ## Build the container
-	cd totembionet && docker build -t $(CONTAINER_NAME) .
-
-build-backend-services:
-	cd backendservices && ./build.sh && cd ..
+build: ## Build the container
+	docker build -t $(CONTAINER_NAME) totembionet
 
 run: ## Run the container
 	docker-compose up -d
@@ -21,25 +18,8 @@ stop: ## Stop and delete the container
 remove: ## Remove the image
 	docker rmi $(IMAGE_NAME)
 
-test: install-model test-ggea test-model-picker test-discrete-model test-simu-net createjar test-smb ## Execute tests
-
-install-model:
-	pip install -e totembionet/discrete-model
-
-test-ggea:
-	cd totembionet; cd ggea; python -m unittest tests.test; cd ..; cd ..
-
-test-model-picker:
-	cd totembionet; cd model-picker; python -m unittest tests.test; cd ..; cd ..
-
-test-discrete-model:
-	cd totembionet; cd discrete-model; python -m unittest tests.test; cd ..; cd ..
-
-test-simu-net:
-	cd totembionet; cd simu-net; python -m unittest tests.test; cd ..; cd ..
-
-test-smb:
-	cd totembionet; cd smb-lib; python -m unittest tests.test; cd ..; cd ..
+test: ## Execute tests
+	python -m unittest discover -s totembionet/src
 
 clean: clean-build clean-pyc clean-hooks clean-backend clean-gv ## Remove compiled files
 
@@ -65,10 +45,3 @@ clean-backend:
 clean-gv:
 	find . -name '*.gv' -exec rm -f {} +
 	find . -name '*.gv.*' -exec rm -f {} +
-
-createjar:
-	sudo mkdir -p /notebook/tutorials/requierements
-	sudo cp ./totembionet/tutorials/requierements/smbionetjava.jar /notebook/tutorials/requierements/
-
-deletejar:
-	sudo rm -rf /notebook
