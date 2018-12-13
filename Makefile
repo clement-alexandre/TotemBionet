@@ -18,6 +18,9 @@ stop: ## Stop and delete the container
 remove: ## Remove the image
 	docker rmi $(IMAGE_NAME)
 
+doc: ## Build and open the doc
+	make -C docs html; python docs/index.py
+
 test: ## Execute tests
 	python -m unittest discover -s totembionet/src
 
