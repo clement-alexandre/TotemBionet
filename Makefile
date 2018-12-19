@@ -1,25 +1,28 @@
+.PHONY: $(MAKECMDGOALS)
+
 IMAGE_NAME="totembionet"
 CONTAINER_NAME="totembionet"
 
 help: ## This help.
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-build: ## Build the container
-	docker build -t $(CONTAINER_NAME) totembionet
+up: ## Build and Run the container
+	docker-compose up -d --build
 
-run: ## Run the container
+start: ## Run the container
 	docker-compose up -d
 
-up: build run ## Build and Run the container
+stop: ## Stop the container
+	docker-compose stop
 
-stop: ## Stop and delete the container
-	docker stop $(CONTAINER_NAME); docker rm $(CONTAINER_NAME)
+down: ## Stop and delete the container
+	docker-compose down
 
 remove: ## Remove the image
 	docker rmi $(IMAGE_NAME)
 
 doc: ## Build and open the doc
-	make -C docs html; python docs/index.py
+	python docs/docs.py
 
 test: ## Execute tests
 	python -m unittest discover -s totembionet/src
@@ -48,3 +51,14 @@ clean-backend:
 clean-gv:
 	find . -name '*.gv' -exec rm -f {} +
 	find . -name '*.gv.*' -exec rm -f {} +
+
+
+# Alias
+
+docs: doc
+documentation: doc
+documentations: doc
+build: up
+run: start
+uninstall: remove
+tests: test
