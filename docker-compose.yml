@@ -3,8 +3,7 @@ version: '3'
 services:
 
   totembionet:
-    container_name: totembionet
-    image: totembionet
+    build: totembionet
     ports:
       - "8888:8888"
     depends_on:
@@ -15,5 +14,7 @@ services:
     ports:
       - "27017:27017"
 
-
-
+  docs:
+    build: docs
+    ports:
+      - '8080:8080'
