@@ -6,13 +6,13 @@ ENV ROOT=$HOME/notebook
 
 WORKDIR $ROOT
 
-COPY src/requierements.txt .
+COPY src/requierements.txt src/requierements.txt
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         graphviz \
         openjdk-8-jre && \
-    pip install --no-cache-dir -r requierements.txt && \
+    pip install --no-cache-dir -r src/requierements.txt && \
     apt clean -y && \
     rm -rf /var/lib/apt/lists/*
 
@@ -26,7 +26,8 @@ COPY src src
 RUN pip install --no-cache-dir -e src
 
 COPY notebooks notebooks
-COPY resources notebooks/resources
+
+COPY resources resources
 
 RUN chown -R $NB_UID:$NB_GID $ROOT
 
