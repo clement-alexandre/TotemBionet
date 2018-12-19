@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# coding: utf-8
 
 import random
 from typing import Any, List
@@ -13,7 +13,8 @@ class ModelPickerException(Exception):
         return self.message or str(self.cause)
 
 
-def pick_a_model_randomly(models: List[Any]):
+def pick_a_model_randomly(models: List[Any]) -> Any:
+    """ Naive picking function, return one of the models chosen randomly. """
     try:
         return random.choice(models)
     except IndexError as e:
