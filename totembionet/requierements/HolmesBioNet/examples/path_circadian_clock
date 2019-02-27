@@ -1,0 +1,50 @@
+Start Influence Graph
+
+(* Don't forget to define variables before defining multiplexes ! *)
+var P 1;
+var BC 1;
+var R 1;
+
+mult m1
+	formula: Neg(P >= 1)
+	targets: BC
+;
+
+mult m2
+	formula: BC >= 1 
+	targets: P
+;
+
+mult m3
+	formula: BC >= 1
+	targets: R
+;
+
+mult m4
+	formula: Neg(R >= 1)
+	targets: BC
+;
+
+mult m5
+	formula: Neg(R >= 1)
+	targets: P
+;
+
+
+End Influence Graph
+
+Start Hoare Triple
+{}
+(6.12,Slide-(R),P-);
+(3.44,True,BC+);
+(2.44,Slide+(BC) And Slide-(P),R+);
+(6.12,Slide+(R),P+);
+(3.44,True,BC-);
+(2.44,Slide-(BC) And Slide+(P),R-)
+{
+eta(P) = 1 And Eta(R) = 0 And Eta(BC) = 0, 
+True
+}
+End Hoare Triple
+
+Cyclic behaviour

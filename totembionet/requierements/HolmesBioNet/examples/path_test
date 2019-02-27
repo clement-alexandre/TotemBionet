@@ -1,0 +1,31 @@
+Start Influence Graph
+
+(* Don't forget to define variables before defining multiplexes ! *)
+var u 1;
+var v 1;
+
+mult m1
+	formula: Neg(v >= 1)
+	targets: u
+;
+
+mult m2
+	formula: u >= 1 
+	targets: v
+;
+
+End Influence Graph
+
+Start Hoare Triple
+{}
+(5.0,NoSlide(v),u+);
+(7.0,Slide+(u),v+);
+(8.0,NoSlide(v),u-); 
+(4.0,Slide-(u), v-)
+{
+eta(u) = 0 And Eta(v) = 0, 
+True
+}
+End Hoare Triple
+
+Cyclic behaviour

@@ -1,0 +1,68 @@
+constants{
+	pi_exit_v_1=0.;
+	pi_exit_u_1=0.;
+	pi_exit_u_2=0.;
+	pi_exit_v_3=1.;
+	pi_exit_u_3=1.;
+	pi_exit_u_4=1.;
+}
+
+init{
+	real pi_entrance_v_0 = [0;1];
+	real pi_exit_v_0 = [0;1];
+	real pi_entrance_v_1 = [0;1];
+	real pi_entrance_v_2 = [0;1];
+	real pi_exit_v_2 = [0;1];
+	real pi_entrance_v_3 = [0;1];
+	real pi_entrance_v_4 = [0;1];
+	real pi_exit_v_4 = [0;1];
+	real pi_entrance_u_0 = [0;1];
+	real pi_exit_u_0 = [0;1];
+	real pi_entrance_u_1 = [0;1];
+	real pi_entrance_u_2 = [0;1];
+	real pi_entrance_u_3 = [0;1];
+	real pi_entrance_u_4 = [0;1];
+	real C_v__m2__0 = [-50;50];
+	real C_v__m2__1 = [-50;50];
+	real C_v____0 = [-50;50];
+	real C_v____1 = [-50;50];
+	real C_u__m1__0 = [-50;50];
+	real C_u__m1__1 = [-50;50];
+	real C_u____0 = [-50;50];
+	real C_u____1 = [-50;50];
+}
+
+constraints{
+	pi_entrance_u_0=pi_entrance_u_4;
+	pi_entrance_v_0=pi_entrance_v_4;
+	C_u____0 * C_u____1>=0.;
+	C_u__m1__0 * C_u__m1__1>=0.;
+	C_v____0 * C_v____1>=0.;
+	C_v__m2__0 * C_v__m2__1>=0.;
+	pi_exit_v_1=1. - pi_entrance_v_0;
+	pi_exit_u_1=pi_entrance_u_0;
+	pi_exit_v_2<1.;
+	pi_exit_v_2>0.;
+	pi_exit_u_2=1. - pi_entrance_u_1;
+	pi_exit_v_2=pi_entrance_v_1;
+	pi_exit_v_3=1. - pi_entrance_v_2;
+	pi_exit_u_3=pi_entrance_u_2;
+	pi_exit_v_4<1.;
+	pi_exit_v_4>0.;
+	pi_exit_u_4=1. - pi_entrance_u_3;
+	pi_exit_v_4=pi_entrance_v_3;
+	pi_entrance_v_4=pi_exit_v_4 - C_v____0 * 5.;
+	pi_entrance_u_4=pi_exit_u_4 - C_u__m1__0 * 5.;
+	C_u__m1__0>0.;
+	pi_entrance_v_3=pi_exit_v_3 - C_v__m2__0 * 7.;
+	C_v__m2__0>0.;
+	pi_entrance_u_3>pi_exit_u_3 - C_u__m1__1 * 7.;
+	C_u__m1__1>0.;
+	pi_entrance_v_2=pi_exit_v_2 - C_v__m2__1 * 8.;
+	pi_entrance_u_2=pi_exit_u_2 - C_u____1 * 8.;
+	C_u____1<0.;
+	pi_entrance_v_1=pi_exit_v_1 - C_v____1 * 4.;
+	C_v____1<0.;
+	pi_entrance_u_1<pi_exit_u_1 - C_u____0 * 4.;
+	C_u____0<0.;
+}

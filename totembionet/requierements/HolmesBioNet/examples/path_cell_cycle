@@ -1,0 +1,87 @@
+Start Influence Graph
+
+(* Don't forget to define variables before defining multiplexes ! *)
+var SK 2;
+var EP 1;
+var A 1;
+var B 1;
+var En 1;
+
+mult m1
+	formula: Neg(A >= 1)
+	targets: SK
+;
+
+mult m2
+	formula: SK >= 1 
+	targets: SK
+;
+
+mult m3
+	formula: SK >= 2
+	targets: A
+;
+
+mult m4
+	formula: Neg(A >= 1)
+	targets: En
+;
+
+mult m5
+	formula: Neg(En >= 1)
+	targets: A
+;
+
+mult m6
+	formula: A >= 1
+	targets: B
+;
+
+mult m7
+	formula: Neg(B >= 1)
+	targets: A
+;
+
+mult m8
+	formula: B >= 1
+	targets: EP
+;
+
+mult m9
+	formula: EP >= 1
+	targets: En
+;
+
+mult m10
+	formula: Neg(En >= 1 Or (EP >= 1 And En >= 1))
+	targets: B
+;
+
+mult m11
+	formula: Neg(SK >= 1)
+	targets: En
+;
+
+End Influence Graph
+
+Start Hoare Triple
+{}
+(3.33,Slide-(EP),SK+);
+(3.33,true,SK+);
+(3.33,Slide+(SK),En-); 
+(2.0,Slide-(En), A+);
+(2.0,True,SK-);
+(2.0,Slide+(A),SK-);
+(2.0,Slide-(SK),B+);
+(2.0,True,A-);
+(2.0,Slide+(B),EP+);
+(0.17,Slide+(EP),En+);
+(0.17,Slide-(A) And Slide+(En),B-);
+(0.17,Slide-(B),EP-)
+{
+eta(SK) = 0 And Eta(EP) = 0 And Eta(A) = 0 And (Eta(B) = 0) And Eta(En) = 1, 
+True
+}
+End Hoare Triple
+
+Cyclic behaviour

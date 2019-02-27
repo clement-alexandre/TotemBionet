@@ -1,0 +1,562 @@
+**************
+*** README ***
+**************
+- Created by Jonathan Behaegel, Maxime Folschette and 
+Jean-Paul Comet
+- Latest version : 11/10/2018
+
+=============================================================
+
+This file contains all information necessary in order to 
+use the program ./run.sh and write the input file mandatory 
+for the main program.
+All the files are free source.
+
+You can find a use case in the example file named "path". This 
+file describes the influence graph and the Hoare triple of 
+the mammalian circadian clock defined in the article 
+"Constraint Identification Using Modified Hoare Logic on 
+Hybrid Models of Gene Networks".
+
+!!! BE CAREFUL about the syntax of each instruction detailed 
+below ! It will avoid errors based on a wrong syntax !!!
+
+=============================================================
+
+All information are detailed according to the following plan:
+	1. Start the program
+		1.1. Objective of the program
+		1.2. Use the program
+	2. Input file
+		2.1. Influence Graph and Hoare Triple
+		2.2. Comments
+	3. Influence Graph Definition
+		3.1. Variable
+		3.2. Multiplex
+			3.2.1. Formula
+			3.2.2. Target
+		3.3. Example
+	4. Hoare Triple Definition
+		4.1. Precondition
+		4.2. Biological Trace
+			4.2.1. Duration
+			4.2.2. Assertion
+			4.2.3. Discrete Path Atom
+			4.2.4. Example of Biological Trace
+		4.3. Postcondition
+			4.3.1. Dicrete Condition
+			4.3.2. Hybrid Condition
+		4.4. Example
+	5. Example of input_file
+
+
+****************************
+*** 1. Start the program ***
+****************************
+
+
+*************************************
+*** 1.1. Objective of the program ***
+*************************************
+
+The objective of the command ./run.sh is to create files
+containing constraints on celerities, coordinates and times
+of the corresponding Hoare triple.
+Each file contains the variables celerities, coordinates 
+defined with their corresponding interval.
+By default, we consider each celerity defined in the interval
+[-6,6]. As indicated in our article Hoare triple formalism, 
+the coordinates are defined in the interval [0,1].
+Each file contains constraints in conjunction. All gathered,
+the constraints of the output files represent a Disjunctive
+Normal Form (DNF).
+
+
+****************************
+*** 1.2. Use the program ***
+****************************
+
+To use the program, executed the following command in the 
+repertory of the program:
+
+./run.sh input_file [output_path]
+
+- The first argument is mandatory: this is the "input_file". 
+It indicates the input file containing the definition of the 
+influence graph and the Hoare triple (See part 2.1. for more 
+information). This argument corresponds to the path of the 
+input file (it could only correspond to the name of the file 
+if the input file is in the same path as the program).
+- The second argument is optionnal: this is the 
+"output_path". It indicates the output path WITH the name of 
+each file. If the directory indicated doesn't exist, the 
+program will create it.
+If none second argument is given, the program creates the 
+output files in the directory of the program and they will
+be named identically to the name of the input file.
+
+Each name of output file is ended by "_1.abs".
+
+~~~~~~~~~
+Example :
+
+./run.sh path 
+./run.sh ../path2 ./constraints/result
+~~~~~~~~~
+
+- The first command starts the program with the input file
+"path" located in the current repertory (i.e. the repertory 
+of the program). The output files will be created in the same 
+repertory because none other argument is decladed in the 
+command. The output files will be named "path_1.abs".
+- The second command starts the program with the input file
+"path2" located in the parent repertory. The output files 
+will be created in the repertory "constraints" and will be 
+named "result_1.abs".
+
+
+
+*********************
+*** 2. Input file ***
+*********************
+
+
+*********************************************
+*** 2.1. Influence Graph and Hoare Triple ***
+*********************************************
+
+The input file contains two main parts:
+- The definition of the Influence Graph
+- The definition of the Hoare Triple
+
+The elements of the Influence Graph are defined between
+the sentence "Start Influence Graph" and the sentence
+"End Influence Graph".
+
+After these two definitions, the user can indicate if 
+the Hoare triple defined has a cyclic behaviour. So the 
+user writes "Cyclic behaviour".
+
+~~~~~~~~~
+Example :
+
+Start Influence Graph
+
+var v 2;
+var u 1;
+mult m1
+	formula: v >= 1
+	targets: u
+;
+
+End Influence Graph
+~~~~~~~~~
+
+
+The elements of the Hoare Triple are defined between
+the sentence "Start Hoare Triple" and the sentence
+"End Hoare Triple".
+
+~~~~~~~~~
+Example :
+
+Start Hoare Triple
+
+{}
+(5.0,True,v+);
+(4.2,C(v)>=2.2,u-)
+{eta(v)=2 AND eta(u)=0, True}
+
+End Hoare Triple
+~~~~~~~~~
+
+
+*********************
+*** 2.2. Comments ***
+*********************
+
+Some comments can be added in the input file. To add
+these comments, there have started by "(*" and end with
+"*)".
+~~~~~~~~~
+Example :
+
+(* This is a comment ! *)
+~~~~~~~~~
+
+The characters allowed in comments are :
+- a-z A-Z meaning all letters, lowercase and uppercase included
+- 0-9 all numerals
+- ' ' '\t' '\n' meaning respectively space, tabulation and 
+newline
+- . ! ' " # ~ ; : ; % / - _ @ ^ $ * ? < > = & { } ( ) [ ] | \
+
+The accentuation of letters is forbidden.
+
+
+
+*************************************
+*** 3. Influence Graph Definition ***
+*************************************
+
+
+The Influence Graph describes each element defined in
+the graph influence. These elements correspond to 
+variables and multiplexes of the graph.
+
+*********************
+*** 3.1. Variable ***
+*********************
+
+Each variable is defined by a name and its maximum level.
+To define a variable, the line starts by the word "var",
+"Var" or "VAR" and end with the semi-colon font ";".
+- Each name of variable only contain alphabetical character
+(lowercase or uppercase).
+- Each maximum level is an integer.
+Let us notice that the name of variable do NOT contain 
+numerical value, and should not be one word necessary for the
+definitions as explained in this file (example : "var", 
+"mult", etc).
+
+~~~~~~~~~
+Example:
+
+var v 1;
+VAR aB 3;
+~~~~~~~~~
+
+The previous example defines 2 variables:
+- a multi-valued variable v where its maximum level is equal
+to 3
+- a binary variable aB
+
+
+**********************
+*** 3.2. Multiplex ***
+**********************
+
+
+!!! BE CAREFUL : The multiplexes should be defined AFTER the 
+variables !!!
+
+
+A multiplex is defined by a name, a formula and one or
+several targets.
+To define a multiplex in the input file, the line starts with
+the word "mult", "Mult" or "MULT" and end with a semi-colon 
+";".
+The name of the multiplex is described after the previous 
+word. Each name of mutliplex starts by the letter "m" and 
+a numerical value (example : "m1").
+
+
+**********************
+*** 3.2.1. Formula ***
+**********************
+
+We describe the formula of the corresponding multiplex by
+writing the word "formula","Formula" or "FORMULA" attached 
+with a colon ":" without any space.
+
+An atom of a formula contains the variable name previously
+defined, a comparator and a level.
+
+The comparator can be one of the following list:
+- = meaning "equal"
+- != meaning "different from"
+- > or <
+- >= or => meaning "greater or equal than"
+- <= or =< meaning "lower or equal than"
+Let us notice that we advise the user to use the comparator
+">=" as described in the article "Constraint Identification 
+Using Modified Hoare Logic on Hybrid Models of Gene 
+Networks" (Definition 1)
+
+
+A formula can contain several atoms, linked with logical 
+connectives:
+- "and", "And", "AND" meaning the conjunction between atom
+- "or", "Or", "OR" meaning the disjunction between atom
+- "neg", "Neg", "NEG" meaning the negatiom of the atom
+- "impl", "IMPL", "Impl" meaning the implication of the atom
+
+
+*********************
+*** 3.2.2. Target ***
+*********************
+
+We describe the target(s) of the corresponding 
+multiplex by the word "target", "Target", "TARGET"
+followed by a colon ":" without any space.
+
+Let us remark that the word "target" can be plural in our
+syntax.
+Each variable targeted by the multiplex are defined after
+the previous word, separated by a comma ",".
+
+
+********************
+*** 3.3. Example ***
+********************
+
+~~~~~~~~~
+Example:
+
+Start Influence Graph
+var u 1;
+VAR v 2;
+Var w 2;
+
+mult m1
+	formula: u >= 1 OR w < 1
+	targets: v,u
+;
+
+End Influence Graph
+~~~~~~~~~
+In this instance, we define a binary variable "u" and 2
+multi-valued variables "v" and "w", whose the maximum
+level is equal to 2. We also define a multiplex called "m1". 
+It contains the formula "u >= 1 OR w < 1" and targets the
+variables "v" and "u".
+
+
+
+**********************************
+*** 4. Hoare Triple Definition ***
+**********************************
+
+The Hoare Triple describes the precondition, the 
+biological trace and the postcondition of the
+previous Influence Graph. 
+
+
+*************************
+*** 4.1. Precondition ***
+*************************
+
+Since the program identifies the Weakest 
+Precondition using the biological trace and the
+postcondition, the precondition is empty.
+We just write the postcondition of the form "{}".
+
+
+*****************************
+*** 4.2. Biological Trace ***
+*****************************
+
+A biological trace is defined by a path or a sequence of 
+path.
+Each elementary path describes a duration d, an assertion 
+a and a discrete path atom dpa:
+(d,a,dpa)
+
+Let us remark that the elementary path ε is not defined in
+the implementation.
+
+
+***********************
+*** 4.2.1. Duration ***
+***********************
+
+The duration can be defined as an integer or a float.
+
+
+************************
+*** 4.2.2. Assertion ***
+************************
+
+An assertion is a term included in the following list:
+- "True" or "true" or "TRUE" meaning none information
+- "Slide(v)" or "slide(v)" or "SLIDE(v) meaning a 
+sliding of the variable "v" previously defined
+We can also add the indication of the sliding at the top
+border with the symbol "+" or at the bottom border with
+the symbol "-" (Example: "Slide+(v)", "SLIDE-(u)")
+- "NoSlide(v)" or "Noslide(v)" or "noslide(v)" or 
+"NOSLIDE(v) meaning that the variable "v" previously 
+defined cannot slide in the current state.
+We can also add the indication of the non-sliding at the 
+top border with the symbol "+" or at the bottom border 
+with the symbol "-" (Example: "NoSlide+(v)", 
+"NOSLIDE-(u)")
+- "C(v) > 2.0" meaning the celerity of the variable "v"
+is compared (">") with a value, integer or float number
+("2.0"). All comparators described in part 2.2.1. can 
+be used.
+
+Let us notice that an assertion can contain several atoms, 
+linked with logical connectives as defined in part 2.2.1.
+Let us also remark that you can include parenthesis around
+each term.
+
+
+~~~~~~~~~
+Example of assertion:
+
+(SLIDE+(v) And C(w)>=2.2) or (c(u)=2)
+~~~~~~~~~
+Here we define 2 possibilities : either the celerity of "u"
+is equal to 2, or we have a sliding for the variable "v" and 
+the celerity of "w" greater or equal than 2.2.
+
+
+*********************************
+*** 4.2.3. Discrete Path Atom ***
+*********************************
+
+A discrete path atom is defined by the name of the variable 
+followed by the symbol "+" or "-":
+- "v+" means the variable "v" increases its expression level
+- "u-" means the variable "u" decreases its expression level
+
+
+******************************************
+*** 4.2.4. Example of Biological Trace ***
+******************************************
+
+~~~~~~~~~
+Example of assertion:
+(3.5, 
+(SLIDE(v) And C(w)>=2.2) or (c(u)=2),
+w+)
+~~~~~~~~~
+
+
+**************************
+*** 4.3. Postcondition ***
+**************************
+
+A postcondition is a tuple of a Discrete Condition D and a 
+Hybrid Condition H of the form {D,H}.
+
+
+*********************************
+*** 3.3.1. Discrete Condition ***
+*********************************
+
+A Discrete Condition contains terms of the following list:
+- "true" or "True" or "TRUE" meaning none information
+- "Eta(v) = 1", meaning that the expression level of the 
+variable "v" is equal to "1".  We can write "Eta" or "eta",
+use all comparators as detailed in part 2.2.1, and compare
+the expression level with an integer only.
+The logical connectives can be used as seen in part 2.2.1.
+
+~~~~~~~~~
+Example of Discrete Condition:
+Eta(v) = 1 AND eta(u) = 0
+~~~~~~~~~
+
+*******************************
+*** 4.3.2. Hybrid Condition ***
+*******************************
+
+A Hybrid Condition contains terms of the following list:
+- "true" or "True" or "TRUE" meaning none information
+- "pi(v)" or "Pi(v)" or "PI(v)" meaning the entrance position
+of the variable "v"
+- "pi'(v)" or "Pi'(v)" or "PI'(v)" meaning the entrance position
+of the variable "v"
+- C(v,[m1,m2],1) meaning the celerity of v where the resources
+are "m1" and "m2", indexed by the value 1
+- "time(t)" or "Time(t)" or "TIME(t)" meaning the time t, with "t"
+- a float number
+which corresponds to a duration (See part 3.2.1.).
+
+These terms can be in relation with the symbols "+", "-", "*" and
+"/", meaning respectively an addition, a substraction, a product and
+a division.
+We can compare terms or term relation with the comparator as detailed
+in part 2.2.1.
+The logical connectives can be used as described in aprt 2.2.1.
+You can use parenthesis around all term comparison.
+
+~~~~~~~~~
+Example of Hybrid Condition:
+pi'(v)=2.0 And C(u,[m1],1)<=10.4 and (pi'(v) + pi(v) = 1.0)
+~~~~~~~~~
+
+
+********************
+*** 4.4. Example ***
+********************
+~~~~~~~~~
+Example of postcondition:
+{
+Eta(v) = 1 AND eta(u) = 0,
+pi'(v)=2.0 And c(u,[m1],1)<=10.4 and (pi'(v) + pi(v) = 1.0)
+}
+~~~~~~~~~
+
+
+
+********************************
+*** 5. Example of input_file ***
+********************************
+
+Example of input file :
+
+Let us remark that example is included into the file named
+"path". The influence graph and the Hoare triple describe the 
+mammalian circadian clock as defined in the article 
+"Constraint Identification Using Modified Hoare Logic on 
+Hybrid Models of Gene Networks". Using this file in our 
+implementation (./run.sh path), we obtained three output files.
+
+~~~~~~~~~
+Start Influence Graph
+
+(* Don't forget to define variables before defining multiplexes ! *)
+var pc 1;
+var g 1;
+var L 1;
+var X 1;
+
+mult m1
+	formula: Neg(pc >= 1)
+	targets: g
+;
+
+mult m2
+	formula: g >= 1 
+	targets: pc
+;
+
+mult m3
+	formula: L >= 1
+	targets: g
+;
+
+mult m4
+	formula: L >= 1
+	targets: X
+;
+
+mult m5
+	formula: Neg(X >= 1)
+	targets: L
+;
+
+
+End Influence Graph
+
+Start Hoare Triple
+{}
+(0.9,Slide+(L),pc-);
+(4.5,True,g+);
+(0.6,NoSlide(g),X+); 
+(5.53,(Slide+(g) And Slide+(X)), pc+);
+(0.47,NoSlide(pc),L-);
+(5.4,(Slide+(pc) And Slide-(L)),g-);
+(0.6,NoSlide(pc),X-);
+(6,Slide-(X) And NoSlide(pc),L+)
+{
+eta(g) = 0 And Eta(pc) = 1 And Eta(L) = 1 And (Eta(X) = 0), 
+pi(g)=0.12 AND pi(pc) = 0.12 And (pi(L) = 0.0) and pi(X) = 0.0
+}
+End Hoare Triple
+
+Cyclic behaviour
+~~~~~~~~~

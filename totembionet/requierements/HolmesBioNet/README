@@ -1,0 +1,58 @@
+1 - Installer AbSolute
+2 - Remplacer le chemin absolu du solveur "/home/joe/programmes/AbSolute" dans le fichier settings.conf par le chemin absolu du solveur sur l'ordinateur courant.
+Remarque : Les autres variables du fichier settings.conf sont les valeurs par défaut. Elles peuvent soit être modifiées dans le fichier settings.conf soit prendre une autre valeur dans la ligne de commande.
+3 - Ouvrir un terminal dans le répertoire principal de Holmes BioNet. 
+4 - Appeler le solveur (avec aide) en lançant la commande ./modelling.sh -h
+La commande affiche les informations suivantes:
+
+./modelling.sh -i Input_file [OPTIONS...]
+-i : Declares the input file named Input_file here
+
+OPTIONS :
+-h : Display this list of options
+-n : Indicates the number of solutions for the constraint solver (Default : 10)
+-o : Declares the output file with its path (Default : directory named with date of the day in the current directory of the input file)
+-t : Time (in hour) represented in the graph and for the simulation (Default : 72)
+-p : Precision for the Solver (Default : 1e-3)
+
+EXAMPLES :
+./modelling.sh -i ./examples/path_test -n 100 -t 48
+./modelling.sh -i ./examples/path_test -o ./examples/res/output_file
+
+Remarque:
+Pour faciliter la prise en main du programme, je mets le fichier d'entrée dans le répertoire example, et la sortie dans le même répertoire.
+Généralement, je n'indique pas de sortie (option -o) et un répertoire à la date du jour se crée (exemple: répertoire 2018-10-11). Sinon, on peut indiquer une sortie en spécifiant bien le chemin (relatif ou absolu) et le nom du fichier de sortie (sans l'extension). Par exemple, la deuxième ligne de commande où est écrit "-o ./examples/res/output_file" signifie que les fichiers de sortie seront dans le répertoire /examples/res/ et le nom du fichier de sortie sera "output_file.(extension)".
+Si le programme est de nouveau lancé dans le même répertoire de sortie, les fichiers déjà présents seront écrasés.
+
+
+*************
+Exemple:
+
+./modelling.sh -i ./examples/path_test -o ./examples/res_path_test/result
+
+Le répertoire res_path_test est créé dans le répertoire examples.
+Les fichiers obtenus sont : (ceux terminant par * ont leur nom inchangé lorsqu'on appelle de nouveau le programme)
+
+cel_file*
+	-> fichier indiquant les domaines de définitions finaux des célérités
+data_cel.txt*
+	-> valeurs choisies pour les célérités
+dinit*
+	-> Valeurs des états discrets des différentes entités correspondant à l'état initial de la simulation. Par convention, je choisi toujours l'état initial comme étant l'état hybride d'entrée de la Précondition (calculé automatiquement dans le programme).
+final_cstr_path_test.abs
+	-> Fichier final utilisé par le solveur. Il peut différer de l'autre fichier .abs dans le répertoire si des célérités ont été fixées durant l'appel du solveur (ajoutées dans la partie constante du fichier).
+graph_data.txt*
+	-> valeurs (niveau discret + partie fractionnaire) à chaque événement (chaque ligne). La première colonne correspond au temps et les colonnes suivantes aux valeurs des entités.
+piinit*
+	-> idem que dinit mais pour les parties fractionnaires des entités
+result_1.abs
+	-> fichier contenant le CSP de la trace biologique après le calcul de plus faible précondition
+result_path_test_72H.pdf
+	-> résultat graphique de la simulation correspondant au fichier graph_data.txt. Pour changer le temps en abscisse (72H le cas présent), ajouter "-t n" dans la ligne du commande avec "n" un ENTIER correspondant à la durée souhaitée
+result_solver*
+	-> fichier de sortie du solveur AbSolute. En bas du fichier, on y trouve les solutions sûres ("sure") ou non sûres (unsure) que le solveur identifie.
+
+*************
+
+Modification du graphe de sortie:
+Si vous souhaitez faire des modifications sur le graphique obtenu avec gnuplot, vous pouvez modifier les configurations dans le fichier "graph_config_file.sh" présent dans le répertoire "graph".
