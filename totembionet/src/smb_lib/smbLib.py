@@ -26,7 +26,7 @@ class smbionet:
         value = ""
         with open(path[:-4]+".out") as myFile:
             lines = myFile.readlines()
-            for line in lines[:-1]:
+            for line in lines:
                 if lookup in line:
                     checked += 1
                     totalchecked += 1
@@ -40,10 +40,8 @@ class smbionet:
                         value += line
                     else:
                         if(checked > 1):
-
                             self.modeles.append({"id":checked -1,"value":value.replace('\n', ' ')})
                             value =""
-        print("checkedModeles/totalModeles = "+str(checked)+"/"+str(totalchecked))
         self.modeles.append({"id":checked,"value":value.replace('\n', ' ')})
 
 
@@ -72,7 +70,7 @@ class smbionet:
         totalchecked = 0
         with open(path[:-4]+".out") as myFile:
             lines = myFile.readlines()
-            for line in lines[:-1]:
+            for line in lines:
                 if lookup in line:
                     checked += 1
                     totalchecked += 1
@@ -82,6 +80,5 @@ class smbionet:
                     find = False
                 if(find):
                     print(line,end='')
-            print("checkedModeles/totalModeles = "+str(checked)+"/"+str(totalchecked))
         os.remove(path)
 
