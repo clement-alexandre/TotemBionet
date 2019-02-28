@@ -55,7 +55,7 @@ class save:
     def downloadExperience(self,id):
         exp = list(self.test.find({"_id" : id}))
         values = exp[0]['experiences'][0]['value']
-        file = open(id+".out","w")
+        file = open(id,"w")
         file.write(values)
         file.close()
 
