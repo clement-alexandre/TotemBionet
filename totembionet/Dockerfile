@@ -21,6 +21,10 @@ RUN tar xvfz /notebook/requierements/NuSMV-2.6.0-linux64.tar.gz -C /notebook/req
     rm /notebook/requierements/NuSMV-2.6.0-linux64.tar.gz && \
     ln -s /notebook/requierements/NuSMV-2.6.0-Linux/bin/NuSMV /usr/bin/
 
+RUN pip install rise && \
+    jupyter-nbextension install rise --py --sys-prefix && \
+    jupyter-nbextension enable rise --py --sys-prefix
+
 COPY src src
 
 RUN pip install --no-cache-dir -e src
